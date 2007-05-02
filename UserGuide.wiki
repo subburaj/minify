@@ -3,9 +3,12 @@
 
 = Installation =
 
+Installing Minify is super easy:
+
+  # Make sure you have [http://www.php.net/ PHP] 5.2.1 or higher.
   # Download the latest version of Minify.
   # Extract the contents of the archive into a web-accessible directory on your server.
-  # Use one of the methods described below to have your web pages call Minify.
+  # Use one of the methods described below to call Minify from your web pages.
 
 = Usage =
 
@@ -103,4 +106,3 @@ $minify->addFile(array(
   </body>
 </html>
 }}}
-
