@@ -81,23 +81,32 @@ If you want more fine-grained control over Minify's options and execution, you c
 // Load the Minify library.
 require 'minify.php';
 
-// Create a new Minify object.
-$minify = new Minify(Minify::TYPE_CSS);
+// Create new Minify objects.
+$minifyCSS = new Minify(Minify::TYPE_CSS);
+$minifyJS  = new Minify(Minify::TYPE_JS);
 
 // Specify the files to be minified. Full URLs are allowed as long as they point
 // to the same server running Minify.
-$minify->addFile(array(
+$minifyCSS->addFile(array(
   'css/example.css',
   'css/monkeys.css',
   'http://example.com/foo/bar/baz.css'
+));
+
+$minifyJS->addFile(array(
+  'js/prototype.js',
+  'js/example.js'
 ));
 ?>
 <html>
   <head>
     <title>Example Page</title>
     <style type="text/css">
-      <?php echo $minify->combine(); ?>
+      <?php echo $minifyCSS->combine(); ?>
     </style>
+    <script type="text/javascript>
+      <?php echo $minifyJS->combine(); ?>
+    </script>
   </head>
   <body>
     <p>
