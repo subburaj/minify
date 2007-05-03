@@ -1,5 +1,4 @@
 #summary A non-comprehensive list of websites using Minify.
-#labels Featured
 
 = Blogs =
 
