@@ -9,7 +9,7 @@ Pretty damn fast. I haven't done extensive benchmarking yet, but in unscientific
 
 Minify doesn't perform gzip compression itself, but it works great when used with Apache's mod_deflate or mod_gzip modules. It should also work fine with the compression features of other web servers.
 
-I made a conscious decision not to implement custom gzip support in Minify since most web servers already provide better, faster implementations. This way the server does what it does best and Minify does what it does best.
+I made a conscious decision not to implement custom gzip support in Minify since most web servers already provide better, faster implementations than I would be able to write. This way the server does what it does best and Minify does what it does best.
 
 = Why can't Minify combine both CSS files and JavaScript files in the same request? =
 
@@ -28,3 +28,7 @@ If _any_ of the requested files are outside the document root, have extensions o
 Not quite. For example, if for some reason you have a `.css` or `.js` file under your document root that is being protected by `.htaccess` restrictions or something similar, Minify has no way of knowing this and will still serve those files if they're readable by the PHP process.
 
 This situation is unlikely, but you should be aware that Minify has no way of knowing about file restrictions that are managed outside of the file system itself. If you need to ensure that users don't have access to a `.css` or `.js` file under your document root, make sure that file isn't readable by the PHP process.
+
+= Is Minify used by any large-scale production websites? =
+
+Currently, I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. If you know of such a site, please [mailto:ryan@wonko.com contact me].
