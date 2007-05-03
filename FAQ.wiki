@@ -3,7 +3,7 @@
 
 = How fast is Minify? =
 
-Pretty damn fast. I haven't done extensive benchmarking yet, but in some unscientific tests on a moderately powerful server, Minify was capable of serving 450 requests per second with caching enabled and 250 requests per second with caching disabled.
+Pretty damn fast. I haven't done extensive benchmarking yet, but in unscientific tests on a moderately powerful server, Minify was capable of serving 450 requests per second with caching enabled and 250 requests per second with caching disabled.
 
 = Does Minify support gzip compression? =
 
