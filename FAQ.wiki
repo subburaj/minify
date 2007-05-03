@@ -1,0 +1,14 @@
+#summary Frequently asked questions.
+#labels Featured,FAQ
+
+= Does Minify support gzip compression? =
+
+Minify doesn't perform gzip compression itself, but it works great when used with Apache's mod_deflate or mod_gzip modules. It should also work fine with the compression features of other web servers.
+
+I made a conscious decision not to implement custom gzip support in Minify since most web servers already provide better, faster implementations. This way the server does what it does best and Minify does what it does best.
+
+= Why can't Minify compress both CSS files and JavaScript files in the same request? =
+
+Because that would be silly. A web browser would never be able to parse a mixture of both CSS and !JavaScript, so Minify doesn't allow you to mix them together.
+
+If you want to use Minify to compress CSS and !JavaScript and insert it into inline HTML blocks, you can do that easily by calling Minify from within PHP and creating two separate instances of the `Minify` class. There's an example of this in the [UserGuide User Guide].
