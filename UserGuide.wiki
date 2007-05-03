@@ -1,5 +1,5 @@
 #summary Your friendly guide to installing and using Minify.
-#labels Featured
+#labels Featured,Phase-Deploy
 
 = Installation =
 
