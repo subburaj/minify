@@ -38,3 +38,8 @@ This situation is unlikely, but you should be aware that Minify has no way of kn
 = Is Minify used in production by any large-scale websites? =
 
 Currently I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. If you know of such a site, please [mailto:ryan@wonko.com contact me].
+
+= Can I use Minify with my commercial website or product? =
+
+Sure. Minify is distributed under the [http://www.opensource.org/licenses/bsd-license.php New BSD License], which means that you're free to use, modify, and redistribute Minify or derivative works thereof, even for commercial purposes, as long as you comply with a few simple requirements. See the [http://minify.googlecode.com/svn/trunk/LICENSE LICENSE] file for details.
+
