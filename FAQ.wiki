@@ -7,8 +7,20 @@ Minify doesn't perform gzip compression itself, but it works great when used wit
 
 I made a conscious decision not to implement custom gzip support in Minify since most web servers already provide better, faster implementations. This way the server does what it does best and Minify does what it does best.
 
-= Why can't Minify compress both CSS files and JavaScript files in the same request? =
+= Why can't Minify combine both CSS files and JavaScript files in the same request? =
 
 Because that would be silly. A web browser would never be able to parse a mixture of both CSS and !JavaScript, so Minify doesn't allow you to mix them together.
 
-If you want to use Minify to compress CSS and !JavaScript and insert it into inline HTML blocks, you can do that easily by calling Minify from within PHP and creating two separate instances of the `Minify` class. There's an example of this in the [UserGuide User Guide].
+If you want to use Minify to insert CSS and !JavaScript into inline HTML blocks, you can do that easily by calling Minify from within PHP and creating two separate instances of the `Minify` class. There's an example of this in the [UserGuide User Guide].
+
+= How does Minify ensure that the client can't request files it shouldn't have access to? =
+
+When Minify processes a request, it looks at the paths of all the files being requested and resolves them into full absolute paths. It then checks to make sure each path is under the server's document root.
+
+If _any_ of the requested files are outside the document root, have extensions other than `.css` or `.js`, or are unreadable by the PHP process, the entire request is refused.
+
+= Does this mean Minify is foolproof, security-wise? =
+
+Not quite. For example, if for some reason you have a `.css` or `.js` file under your document root that is being protected by `.htaccess` restrictions or something similar, Minify has no way of knowing this and will still serve those files if they're readable by the PHP process.
+
+This situation is unlikely, but you should be aware that Minify has no way of knowing about file restrictions that are managed outside of the file system itself. If you need to ensure that users don't have access to a `.css` or `.js` file under your document root, make sure that file isn't readable by the PHP process.
