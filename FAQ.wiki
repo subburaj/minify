@@ -31,4 +31,4 @@ This situation is unlikely, but you should be aware that Minify has no way of kn
 
 = Is Minify used by any large-scale production websites? =
 
-Currently, I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. If you know of such a site, please [mailto:ryan@wonko.com contact me].
+Currently I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. If you know of such a site, please [mailto:ryan@wonko.com contact me].
