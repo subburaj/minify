@@ -19,7 +19,7 @@ When Minify processes a request, it looks at the paths of all the files being re
 
 If _any_ of the requested files are outside the document root, have extensions other than `.css` or `.js`, or are unreadable by the PHP process, the entire request is refused.
 
-= Does this mean Minify is foolproof, security-wise? =
+= Does this mean Minify is foolproof security-wise? =
 
 Not quite. For example, if for some reason you have a `.css` or `.js` file under your document root that is being protected by `.htaccess` restrictions or something similar, Minify has no way of knowing this and will still serve those files if they're readable by the PHP process.
 
