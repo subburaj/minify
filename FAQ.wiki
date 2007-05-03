@@ -3,9 +3,9 @@
 
 = How fast is Minify? =
 
-Pretty damn fast. I haven't done extensive benchmarking yet, but in unscientific tests on a moderately powerful server, Minify was capable of serving 950 requests per second with caching enabled and 590 requests per second with caching disabled when requesting CSS. That's fast enough for you, old man.
+Pretty damn fast. I haven't done extensive benchmarking yet, but in unscientific tests on a moderately powerful server, Minify was capable of serving 950 requests per second with caching enabled and 590 requests per second with caching disabled when serving CSS. That's fast enough for you, old man.
 
-!JavaScript requests are about as fast CSS requests with caching enabled, but closer to 15 requests per second with caching disabled due to the large overhead of the JSMin library. I'm considering making modifications to JSMin to speed up the uncached JavaScript performance.
+!JavaScript requests are about as fast CSS requests with caching enabled, but closer to 15 requests per second with caching disabled due to the large overhead of the JSMin library. I'm considering making modifications to JSMin to speed up the uncached !JavaScript performance.
 
 = Does Minify support gzip compression? =
 
@@ -38,4 +38,3 @@ This situation is unlikely, but you should be aware that Minify has no way of kn
 = Is Minify used by any large-scale production websites? =
 
 Currently I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. If you know of such a site, please [mailto:ryan@wonko.com contact me].
-
