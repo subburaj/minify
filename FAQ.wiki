@@ -11,6 +11,10 @@ Minify doesn't perform gzip compression itself, but it works great when used wit
 
 I made a conscious decision not to implement custom gzip support in Minify since most web servers already provide better, faster implementations than I would be able to write. This way the server does what it does best and Minify does what it does best.
 
+= Does Minify work with PHP opcode caches like APC and eAccelerator? =
+
+Yep!
+
 = Why can't Minify combine both CSS files and JavaScript files in the same request? =
 
 Because that would be silly. A web browser would never be able to parse a mixture of both CSS and !JavaScript, so Minify doesn't allow you to mix them together.
