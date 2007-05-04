@@ -5,7 +5,9 @@
 
 Pretty damn fast. I haven't done extensive benchmarking yet, but in unscientific tests on a moderately powerful server, Minify was capable of serving 950 requests per second with caching enabled and 590 requests per second with caching disabled when serving CSS. That's fast enough for you, old man.
 
-!JavaScript requests are about as fast CSS requests with caching enabled, but closer to 15 requests per second with caching disabled due to the large overhead of the JSMin library. I'm considering making modifications to JSMin to speed up the uncached !JavaScript performance.
+!JavaScript requests are about as fast CSS requests with caching enabled, but closer to 15 requests per second with caching disabled due to the large overhead of the JSMin PHP library.
+
+Beginning with the next release (1.0.1), Minify will use a custom implementation of JSMin capable of serving around 70 uncached requests per second.
 
 = Does Minify support gzip compression? =
 
@@ -42,4 +44,3 @@ Currently I'm not aware of any large-scale websites running Minify, but the proj
 = Can I use Minify with my commercial website or product? =
 
 Sure. Minify is distributed under the [http://www.opensource.org/licenses/bsd-license.php New BSD License], which means that you're free to use, modify, and redistribute Minify or derivative works thereof, even for commercial purposes, as long as you comply with a few simple requirements. See the [http://minify.googlecode.com/svn/trunk/LICENSE LICENSE] file for details.
-
