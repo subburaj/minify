@@ -5,9 +5,7 @@
 
 Pretty damn fast. I haven't done extensive benchmarking yet, but in unscientific tests on a moderately powerful server, Minify was capable of serving 950 requests per second with caching enabled and 590 requests per second with caching disabled when serving CSS. That's fast enough for you, old man.
 
-!JavaScript requests are about as fast CSS requests with caching enabled, but closer to 15 requests per second with caching disabled due to the large overhead of the JSMin PHP library.
-
-Beginning with the next release (1.0.1), Minify will use a custom implementation of JSMin capable of serving around 70 uncached requests per second.
+!JavaScript minification is about as fast CSS with caching enabled, but closer to 70 requests per second with caching disabled.
 
 = Does Minify support gzip compression? =
 
