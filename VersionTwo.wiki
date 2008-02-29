@@ -1,4 +1,4 @@
-#New code in SVN
+#about the new code in SVN.
 
 = Version 2 =
 
