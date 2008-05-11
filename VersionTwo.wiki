@@ -11,6 +11,8 @@ I encourage you to [http://code.google.com/p/minify/source/checkout checkout] th
 
 The individual files have docs, but proper documentation will come in time. The [http://code.google.com/p/minify/source/browse/trunk/README README] has a bit more info.
 
+If you like, there is an [http://subtlety.errtheblog.com/O_o/2eb.xml RSS commit feed].
+
 === HTTP Classes ===
 
 The two HTTP utility classes, [http://code.google.com/p/minify/source/browse/trunk/lib/HTTP/ConditionalGet.php HTTP_ConditionalGet] and [http://code.google.com/p/minify/source/browse/trunk/lib/HTTP/Encoder.php HTTP_Encoder], are already fairly well-tested and include a set of test pages to see how they work. On the [http://fawn.ifas.ufl.edu/ Florida Automated Weather Network] site, these are used especially in scripts that serve data to our Flash components.
