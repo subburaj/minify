@@ -1,6 +1,8 @@
 #summary Your friendly guide to installing and using Minify.
 #labels Featured,Phase-Deploy
 
+*Note:* This currently applies to the series 1.x releases but will be updated soon. See VersionTwo for information about the latest release.
+
 = Installation =
 
 Installing Minify is super easy:
