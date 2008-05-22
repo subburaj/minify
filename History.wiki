@@ -2,8 +2,7 @@
 #labels Featured
 
 == [http://code.google.com/p/minify/downloads/list Version 2.0.0] (2008-05-22) ==
-  * Complete code overhaul. Minify is now a PEAR-style class and toolkit 
-      for building customized minifying file servers.
+  * Complete code overhaul. Minify is now a PEAR-style class and toolkit for building customized minifying file servers.
   * Content-Encoding: deflate/gzip/compress, based on request headers
   * Expanded CSS and HTML minifiers with test cases
   * Easily plug-in 3rd-party minifiers (like Packer)
