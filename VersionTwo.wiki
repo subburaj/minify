@@ -1,19 +1,19 @@
-#summary About the new code in SVN.
-#labels Phase-Design
+#summary About Version 2
+#labels Phase-Implementation,Phase-Design
 
-= Coming Soon =
+= Minify 2 =
 
-If you check the [http://code.google.com/p/minify/source/browse/trunk trunk], you'll see a completely new Minify in the works. 
+[http://code.google.com/p/minify/source/browse/tags/release_2.0.0/ Minify 2.0.0] was released May 22, 2008 and represents an architectural redesign of Minify's code and its usage. 2.0 is built as a library of classes allowing users to easily build customized minified-file servers; or add minification, HTTP encoding, or [http://fishbowl.pastiche.org/2002/10/21/http_conditional_get_for_rss_hackers conditional GET] to existing projects. 
 
-This version is built upon a library of classes allowing users to easily build customized minified-file servers; or add minification, HTTP encoding, or [http://fishbowl.pastiche.org/2002/10/21/http_conditional_get_for_rss_hackers conditional GET] to existing projects. It will release with a v1-compatible minify.php script to ease upgrades, but also complete example sites to show its flexibility.
+The release includes 3 [http://code.google.com/p/minify/source/browse/tags/release_2.0.0/web/examples example sites] to demostrate usage and [http://code.google.com/p/minify/source/browse/tags/release_2.0.0/web/test/ unit tests] you can run on your system.
 
-I encourage you to [http://code.google.com/p/minify/source/checkout checkout] the new version, run the tests, and see the code for Example 1 ([http://code.google.com/p/minify/source/browse/trunk/web/examples/1/m.php m.php] and [http://code.google.com/p/minify/source/browse/trunk/web/examples/1/index.php index.php]) to get an idea of usage (in the current state). 
+== Documentation ==
 
-The individual files have docs, but proper documentation will come in time. The [http://code.google.com/p/minify/source/browse/trunk/README README] has a bit more info.
+Each PHP file is documented, but, for now, the [http://code.google.com/p/minify/source/browse/tags/release_2.0.0/README README file] is the best reference for getting started with the library. This  [http://mrclay.org/index.php/2008/03/27/minifying-javascript-and-css-on-mrclayorg/ blog post] may also give you some ideas.
 
-If you like, there is an [http://subtlety.errtheblog.com/O_o/2eb.xml RSS commit feed].
+The best place for questions is the [http://groups.google.com/group/minify minify Google group].
 
-=== HTTP Classes ===
+=== Included HTTP Classes ===
 
 The two HTTP utility classes, [http://code.google.com/p/minify/source/browse/trunk/lib/HTTP/ConditionalGet.php HTTP_ConditionalGet] and [http://code.google.com/p/minify/source/browse/trunk/lib/HTTP/Encoder.php HTTP_Encoder], are already fairly well-tested and include a set of test pages to see how they work. On the [http://fawn.ifas.ufl.edu/ Florida Automated Weather Network] site, these are used especially in scripts that serve data to our Flash components.
 
