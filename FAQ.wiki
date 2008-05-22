@@ -1,5 +1,6 @@
 #summary Frequently asked questions.
-#labels Featured
+
+*Note* This page has yet to be updated to apply to the release of VersionTwo.
 
 = How fast is Minify? =
 
