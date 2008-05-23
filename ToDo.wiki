@@ -1,0 +1,14 @@
+#summary To do list.
+#labels Phase-QA,Phase-Design
+
+= To Do: =
+
+=== performance testing ===
+
+  * setup script to run ab tests of example setups
+
+My main performance concern is the use of require_once's. With every call we're at least including Source.php, Controller/Base.php, the controller in use, and ConditionalGet.php. Non-conditional GETs (most on a popular site) will also usually include the cache class(es) and Encoder.php, so we're up to 7 files called per resource hit.
+
+The structure is obviously more maintainable/extensible, but what if integrating all those files into one (for, say, the Groups controller usage) greatly improved performance?
+
+Obviously using PHP to serve files is never going to get you near native server speed. Minify is a quick shortcut.
