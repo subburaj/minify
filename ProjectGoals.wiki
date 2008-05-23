@@ -1,0 +1,18 @@
+#summary Goals of Minify
+#labels Phase-Requirements,Phase-Design
+
+== 1. Be easy to implement ==
+
+A PHP user should be able to quickly start serving JS/CSS much more optimally. (See 3.)
+
+== 2. Be extensible/versatile ==
+
+The user should be able to work Minify into an environment without modifying Minify's source. Right now this should be easy on the controller side, but the Minify class is static, which is fast, but may hinder extensibility.
+
+== 3. Be fast as reasonably possible ==
+
+Using PHP to serve essentially static resources will never be 100% optimal, but squeezing out more performance with the same benefits of Minify would require quite a bit of work; intimate knowledge of your HTTPd, the privileges to configure it as needed, processes to maintain caches of compressed & encoded files and watch for changes, server logic to  negotiate encoding with common browsers that lie about what they can deal with (IE6 and earlier).
+
+That said, Minify should always strive for performance. Users are giving up the benefits of flat file serving, so we should do everything we can to stay fast. We need to start running ab tests in the trunk and consider other ways to squeeze performance out of the most common PHP environments.
+
+At the moment my main performance concern is the number of separate files. With every  serve() call we're at least including Source.php, Controller/Base.php, the controller in use, and !ConditionalGet.php. Non-conditional GETs (which will be most of them on a popular site) will also usually include the cache class(es) and Encoder.php, so that's at least 7 files executed per resource hit. None of the files are really large and opcode caches may make this not an issue at all, but it's worth keeping in mind. The current structure is obviously more maintainable/extensible, but what if integrating all those files into one (for, say, the Groups controller usage) greatly improved performance?
