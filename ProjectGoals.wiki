@@ -16,3 +16,7 @@ Using PHP to serve essentially static resources will never be 100% optimal, but 
 That said, Minify should always strive for performance. Users are giving up the benefits of flat file serving, so we should do everything we can to stay fast. We need to start running ab tests in the trunk and consider other ways to squeeze performance out of the most common PHP environments.
 
 At the moment my main performance concern is the number of separate files. With every  serve() call we're at least including Source.php, Controller/Base.php, the controller in use, and !ConditionalGet.php. Non-conditional GETs (which will be most of them on a popular site) will also usually include the cache class(es) and Encoder.php, so that's at least 7 files executed per resource hit. None of the files are really large and opcode caches may make this not an issue at all, but it's worth keeping in mind. The current structure is obviously more maintainable/extensible, but what if integrating all those files into one (for, say, the Groups controller usage) greatly improved performance?
+
+== 4. Consider other techniques to solve these problems ==
+
+Eventually Minify could include tools to setup more involved configurations that relied more on the HTTPd for best performance. A cron job could call a Minify tool to check for source mods and combine, minify and update cached .js and .js.gz files. Negotiating encoding (tricky due to old browsers) could be done in PHP during the HTML writing process and users of modern browsers would get links to gzipped sources.
