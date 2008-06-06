@@ -1,5 +1,4 @@
 #summary A non-comprehensive list of websites using Minify.
 
-  * [http://wonko.com/ wonko.com] (developer blog)
   * [http://mrclay.org/ mrclay.org] (developer blog) using 2.0
   * [http://www.miamianimalremoval.com/ Miami Animal Removal] using 2.0
