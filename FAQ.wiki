@@ -14,7 +14,7 @@ With Minify you will ideally serve _fewer_ requests, but Minify is certainly slo
 You bet. There are two plans that will speed up Minify significantly.
 
   # Minify::serve() currently has the overhead of always reading the cached file into memory, running crc32() on it, and storing the results in an array before echoing it. serve() will be rewritten so cache files are only error-checked upon write, and existing cache files are directly streamed to the output buffer via [http://php.net/readfile readfile()].
-  # For Apache users, a separate module will allow [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and files will be served even [http://mrclay.org/index.php/2008/06/03/pre-encoding-vs-mod_deflate/ faster than with mod_deflate].
+  # For Apache users, a separate PHP class will enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and files will be served even [http://mrclay.org/index.php/2008/06/03/pre-encoding-vs-mod_deflate/ faster than with mod_deflate].
 
 The second method will enable you to squeeze more performance from Apache even if you're not minifying files!
   
