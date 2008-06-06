@@ -1,44 +1,44 @@
 #summary Frequently asked questions.
-
-*Note* This page has yet to be updated to apply to the release of VersionTwo.
+#labels Featured
 
 = How fast is Minify? =
 
-Pretty damn fast. I haven't done extensive benchmarking yet, but in unscientific tests on a moderately powerful server, Minify was capable of serving 950 requests per second with caching enabled and 590 requests per second with caching disabled when serving CSS. That's fast enough for you, old man.
+With Minify you will ideally serve _fewer_ requests, but Minify is certainly slower than your HTTPd serving flat files. If you have a high-traffic site with hundreds of simultaneous requests from new users, you should probably:
 
-!JavaScript minification is about as fast CSS with caching enabled, but closer to 70 requests per second with caching disabled.
+  * Use the far-off Expires model in conjuction with !Minify_Build (see [http://code.google.com/p/minify/source/browse/trunk/web/examples/1/ Example 1]).
+  * Benchmark your development server before rolling out to production.
+  * Place your HTTPd behind a [http://www.squid-cache.org/Intro/why.dyn reverse proxy], which can cache Minify URLs and serve them _fast_.
 
+== Will it get faster? ==
+
+You bet. There are two plans that will speed up Minify significantly.
+
+  # Minify::serve() currently has the overhead of always reading the cached file into memory, running crc32() on it, and storing the results in an array before echoing it. serve() will be rewritten so cache files are only error-checked upon write, and existing cache files are directly streamed to the output buffer via [http://php.net/readfile readfile()].
+  # For Apache users, a separate module will allow [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and files will be served even [http://mrclay.org/index.php/2008/06/03/pre-encoding-vs-mod_deflate/ faster than with mod_deflate].
+
+The second method will enable you to squeeze more performance from Apache even if you're not minifying files!
+  
 = Does Minify support gzip compression? =
 
-Minify doesn't perform gzip compression itself, but it works great when used with Apache's mod_deflate or mod_gzip modules. It should also work fine with the compression features of other web servers.
-
-I made a conscious decision not to implement custom gzip support in Minify since most web servers already provide better, faster implementations than I would be able to write. This way the server does what it does best and Minify does what it does best.
+Yes. Based on the browser's Accept-Encoding header, Minify will serve content encoded with deflate, gzip, or compress.
 
 = Does Minify work with PHP opcode caches like APC and eAccelerator? =
 
 Yep!
 
-= Why can't Minify combine both CSS files and JavaScript files in the same request? =
+= Can Minify compress HTML markup? =
 
-Because that would be silly. A web browser would never be able to parse a mixture of both CSS and !JavaScript, so Minify doesn't allow you to mix them together.
-
-If you want to use Minify to insert CSS and !JavaScript into inline HTML blocks, you can do that easily by calling Minify from within PHP and creating two separate instances of the `Minify` class. There's an example of this in the [UserGuide User Guide].
+Yes, and can even minify the embedded STYLE and SCRIPT elements. [http://code.google.com/p/minify/source/browse/trunk/web/examples/2/index.php Example 2] demonstrates this.
 
 = How does Minify ensure that the client can't request files it shouldn't have access to? =
 
-When Minify processes a request, it looks at the paths of all the files being requested and resolves them into full absolute paths. It then checks to make sure each path is under the server's document root.
+Since VersionTwo, implementors are encouraged to explicitly define the URLs to respond to using controllers like [http://code.google.com/p/minify/source/browse/trunk/lib/Minify/Controller/Groups.php "Groups"]. 
 
-If _any_ of the requested files are outside the document root, have extensions other than `.css` or `.js`, or are unreadable by the PHP process, the entire request is refused.
-
-= Does this mean Minify is foolproof security-wise? =
-
-Not quite. For example, if for some reason you have a `.css` or `.js` file under your document root that is being protected by `.htaccess` restrictions or something similar, Minify has no way of knowing this and will still serve those files if they're readable by the PHP process.
-
-This situation is unlikely, but you should be aware that Minify has no way of knowing about file restrictions that are managed outside of the file system itself. If you need to ensure that users don't have access to a `.css` or `.js` file under your document root, make sure that file isn't readable by the PHP process.
+The legacy Version1 controller behaves like the 1.0 releases and simply limits requests to files within the DOCUMENT_ROOT. Minify cannot know if you've configured your web server to protect an otherwise public directory (e.g. with .htaccess); a sneaky user can request .js/.css files from this directory if he/she guesses the path! In this situation the only way you can prevent serving the file is to make it unreadable by the PHP process.
 
 = Is Minify used in production by any large-scale websites? =
 
-Currently I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. If you know of such a site, please [mailto:ryan@wonko.com contact me].
+Currently I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. There are a few smaller SitesUsingMinify.
 
 = Can I use Minify with my commercial website or product? =
 
