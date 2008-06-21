@@ -5,6 +5,8 @@
 
 == Setup ==
 
+0. If you haven't already, [http://code.google.com/p/minify/downloads/list download] the latest version of Minify and extract the files to a new "minify" directory, ideally outside of the webroot.
+
 1. Copy the "web" directory somewhere inside your webroot and rename it "minify-web".
 
 *Note*: At the end we will delete this copy.
