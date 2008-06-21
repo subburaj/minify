@@ -1,119 +1,155 @@
 #summary Your friendly guide to installing and using Minify.
-#labels Phase-Deploy
-
-*Note:* This currently applies to the series 1.x releases but will be updated soon. See VersionTwo for information about the latest release.
+#labels Phase-Deploy,Featured
 
 = Installation =
 
-Installing Minify is super easy:
+1. [http://code.google.com/p/minify/downloads/list Download] the latest version of Minify and extract the files to a new "minify" directory, ideally outside of the webroot.
 
-  # Make sure you have [http://www.php.net/ PHP] 5.2.1 or higher.
-  # Download the latest version of Minify.
-  # Extract the contents of the archive into a web-accessible directory on your server.
-  # Use one of the methods described below to call Minify from your web pages.
+Done! Minify is just the library of files inside minify/lib.
+
+(Optional) See TestingMinify if you'd like to run unit tests or see example configurations in action.
 
 = Usage =
 
-There are several ways to use Minify. Each works equally well, so feel free to use whichever method you prefer.
+We're going to build a small PHP file that calls `Minify::serve()`, turning it into an HTTP server for our Javascript and CSS.
 
-== The quick & dirty way ==
-
-Modify your HTML pages to load CSS and !JavaScript files by calling `minify.php` directly as demonstrated below.
-
-*Before Minify*
-{{{
-<html>
-  <head>
-    <title>Example Page</title>
-    <link rel="stylesheet" type="text/css" href="css/example.css" />
-    <link rel="stylesheet" type="text/css" href="css/monkeys.css" />
-    <link rel="stylesheet" type="text/css" href="foo/bar/baz.css" />
-    <script type="text/javascript" src="js/prototype.js"></script>
-    <script type="text/javascript" src="js/example.js"></script>
-  </head>
-  <body>
-    <p>
-      Blah.
-    </p>
-  </body>
-</html>
-}}}
-
-*After Minify*
-{{{
-<html>
-  <head>
-    <title>Example Page</title>
-    <link rel="stylesheet" type="text/css" href="minify.php?files=css/example.css,css/monkeys.css,foo/bar/baz.css" />
-    <script type="text/javascript" src="minify.php?files=js/prototype.js,js/example.js"></script>
-  </head>
-  <body>
-    <p>
-      Blah.
-    </p>
-  </body>
-</html>
-}}}
-
-== The mod_rewrite way ==
-
-If you're using Apache with the mod_rewrite module enabled, you can have Minify automatically handle all requests for .css or .js files by adding the following rules to your site's `.htaccess` file:
-
-{{{
-RewriteEngine on
-
-# Combine and minify JavaScript and CSS with Minify.
-RewriteRule ^(.*\.(css|js))$ /minify.php?files=$1 [L,NC]
-}}}
-
-This will cause all CSS and !JavaScript files to be served by Minify, even when you don't modify your HTML pages to call `minify.php` directly.
-
-Just like in the quick & dirty example, you can still combine multiple files by separating their names with commas, like so:
-
-{{{
-<script type="text/javascript" src="firstfile.js,secondfile.js"></script>
-}}}
-
-== The PHP way ==
-
-If you want more fine-grained control over Minify's options and execution, you can include it in your PHP scripts and call it directly. This takes a little more work than the previous methods, but in return you get more flexibility:
+1. Place the following code in a file "min.php" in your root web directory.
 
 {{{
 <?php
-// Load the Minify library.
-require 'minify.php';
 
-// Create new Minify objects.
-$minifyCSS = new Minify(Minify::TYPE_CSS);
-$minifyJS  = new Minify(Minify::TYPE_JS);
+// Prepends include_path. You could alternately do this via .htaccess or php.ini
+set_include_path( 
+    '/full/path/to/minify/lib'
+    . PATH_SEPARATOR . get_include_path()
+);
 
-// Specify the files to be minified. Full URLs are allowed as long as they point
-// to the same server running Minify.
-$minifyCSS->addFile(array(
-  'css/example.css',
-  'css/monkeys.css',
-  'http://example.com/foo/bar/baz.css'
+require 'Minify.php';
+Minify::useServerCache();
+Minify::serve('Groups', array(
+    'groups' => array()
 ));
-
-$minifyJS->addFile(array(
-  'js/prototype.js',
-  'js/example.js'
-));
-?>
-<html>
-  <head>
-    <title>Example Page</title>
-    <style type="text/css">
-      <?php echo $minifyCSS->combine(); ?>
-    </style>
-    <script type="text/javascript>
-      <?php echo $minifyJS->combine(); ?>
-    </script>
-  </head>
-  <body>
-    <p>
-      Blah.
-    </p>
-  </body>
-</html>
 }}}
+
+2. Open a non-IE/win web browser to http://yourhost/min.php/ (IE/win will not display Javascript files directly.)
+
+You should see "HTTP/1.0 400 Bad Request". Minify is working, let's give it something to serve.
+
+*Terminology:* From here on I'll use "minify URI" to mean a URI that points to a Minify server, like "min.php/" in our example.
+
+3. Note the paths of a few Javascript files you'd like to serve together. If they're in the webroot, we can substitue "//" for the DOCUMENT_ROOT.
+
+E.g.: `//js/jQuery.js` is a shortcut for `{$_SERVER['DOCUMENT_ROOT']}/js/jQuery.js`.
+
+4. Add them to the 'groups' array inside the `Minify::serve()` call, like this:
+
+{{{
+Minify::serve('Groups', array(
+    'groups' => array(
+        'js1' => array('//js/yourFile1.js', '//js/yourFile2.js')
+    )
+));
+}}}
+
+5. Browse to http://yourhost/min.php/js1
+
+After a brief delay (on the first request PHP has to compress the files), you'll receive a single minified Javascript file containing the code of "yourFile1.js" and "yourFile2.js". The file will also be sent with deflate or gzip encoding, depending on your browser.
+
+6. Now you can use "/min.php/js1" as the src attribute for (X)HTML SCRIPT elements.
+
+== Serving more combinations of files, including CSS ==
+
+You can add more elements to the "groups" array to serve more files. E.g.:
+
+{{{
+Minify::serve('Groups', array(
+    'groups' => array(
+        'js1' => array('//js/yourFile1.js', '//js/yourFile2.js')
+        ,'js2' => array('//js/yourFile1.js', '//js/yourFile3.js')
+        ,'jQuery' => array('//js/jquery-1.2.6.js')
+        ,'css' => array('//css/layout.css', '//css/fonts.css')
+    )
+));
+}}}
+
+Now you can also use these URLs:
+
+  * http://yourhost/min.php/js2
+  * http://yourhost/min.php/jQuery (serve jQuery by itself)
+  * http://yourhost/min.php/css (serve CSS)
+
+== Sending far future Expires headers ==
+
+By default Minify enables [http://fishbowl.pastiche.org/2002/10/21/http_conditional_get_for_rss_hackers conditional GETs] for client-side caching, but in this model the browser has to continuously check back with the server to revalidate its cache. A better method is to send [http://developer.yahoo.com/performance/rules.html#expires far future Expires headers] and change the URL when the file changes. As long as you generate your HTML with PHP, Minify makes it easy to do this.
+
+1. Move the 'groups' configuration array into a separate file "_groupsConfig.php":
+
+{{{
+<?php
+// configures both Minify::serve() and Minify_Build
+return array(
+    'js1' => array('//js/yourFile1.js', '//js/yourFile2.js')
+    ,'js2' => array('//js/yourFile1.js', '//js/yourFile3.js')
+    ,'jQuery' => array('//js/jquery-1.2.6.js')
+    ,'css' => array('//css/layout.css', '//css/fonts.css')
+);
+}}}
+
+2. Adjust "min.php" to use this file:
+
+{{{
+Minify::serve('Groups', array(
+    'groups' => (require '_groupsConfig.php')
+));
+}}}
+
+3. In your HTML-generating script, create `Minify_Build` objects for each minify URI you're going to use, and, to each, apply the `uri()` method:
+
+{{{
+require 'Minify/Build.php';
+$_gc = (require "_groupsConfig.php");
+$js1Build = new Minify_Build($_gc['js1']);
+$cssBuild = new Minify_Build($_gc['css']);
+
+echo "<link rel='stylesheet' type='text/css' href='" . $cssBuild->uri('/min.php/css') . "' />";
+/* ... */
+echo "<script type='text/javascript' src='" . $js1Build->uri('/min.php/js1') . "'></script>";
+}}}
+
+5. Open the (X)HTML page in your browser. The Javascript and CSS should "work".
+
+6. View source. The minify URIs should look like: "/min.php/js1?##########" (a unix timestamp)
+
+7. Now that our URI's are synched with source file changes, we can safely send Expires headers. In "min.php":
+
+{{{
+Minify::serve('Groups', array(
+    'groups' => (require '_groupsConfig.php')
+    ,'setExpires' => $_SERVER['REQUEST_TIME'] + 31536000 // now + 1 yr
+));
+}}}
+
+Now "min.php" will serve files with Expires headers, causing the browser to always retrieve them from cache (until the expiration date). 
+
+When you make a change to any of your source Javascript/CSS files, your HTML file will have a different querystring appended to the minify URIs, causing the browser to download it as a new URL, and Minify will automatically rebuild its cache files on the server.
+
+== Fixing URIs in CSS files ==
+
+If you serve CSS with Minify you may notice your relative URIs in your CSS no longer point to the right places. To fix this, `serve()` can be pass an option to the CSS minifier that will prepend a string to all relative URIs. E.g.:
+
+{{{
+$serveOptions = array(
+    'groups' => (require '_groupsConfig.php')
+    ,'setExpires' => $_SERVER['REQUEST_TIME'] + 31536000 // now + 1 yr
+);
+// pass the 'prependRelativePath' to the CSS minifier:
+$serveOptions['perType'][Minify::TYPE_CSS]['prependRelativePath'] = '/css/';
+Minify::serve('Groups', $serveOptions);
+}}}
+
+=== Notes ===
+
+  * You can name "min.php" anything you like (as long as it's executed as PHP) and place it anywhere in webroot. In the examples it's often "m.php".
+  * You can use MultiViews or mod_rewrite to allow minify URIs like "/min/js" if you prefer. The "Groups" controller just expects a PATH_INFO server variable like "/js".
+  * You can use multiple "min.php" files for serving with different options. E.g. If you want to use conditional GET on some requests, just make a copy of "min.php" without the 'setExpires' option and rename it something like "cgmin.php".
+  * More [http://code.google.com/p/minify/source/browse/tags/release_2.0.1/lib/Minify.php#65 serve options] are documented in the source.
