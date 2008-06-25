@@ -11,16 +11,14 @@ With Minify you will ideally serve _fewer_ requests, but Minify is certainly slo
 
 == Will it get faster? ==
 
-You bet. There are two plans that will speed up Minify significantly.
+You bet. 
 
-  # Minify::serve() currently has the overhead of always reading the cached file into memory, running crc32() on it, and storing the results in an array before echoing it. serve() will be rewritten so cache files are only error-checked upon write, and existing cache files are directly streamed to the output buffer via [http://php.net/readfile readfile()].
-  # For Apache users, a separate PHP class will enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and files will be served even [http://mrclay.org/index.php/2008/06/03/pre-encoding-vs-mod_deflate/ faster than with mod_deflate].
-
-The second method will enable you to squeeze more performance from Apache even if you're not minifying files!
+  * [http://code.google.com/p/minify/downloads/detail?name=minify-2.0.2b.zip 2.0.2 beta] has a new file cache system that makes minify almost 3x as fast! 2.0.1 had the overhead of always reading the cached file into memory, running crc32() on it, and storing the results in an array before echoing it.
+  * For Apache users we're designing a feature to enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and be blazing fast. Even if you're not minifying files this will be faster gzip serving than with mod_deflate.
   
 = Does Minify support gzip compression? =
 
-Yes. Based on the browser's Accept-Encoding header, Minify will serve content encoded with deflate, gzip, or compress.
+Yes. Based on the browser's Accept-Encoding header, Minify will serve content encoded with deflate or gzip.
 
 = Does Minify work with PHP opcode caches like APC and eAccelerator? =
 
@@ -34,7 +32,7 @@ Yes, and can even minify the embedded STYLE and SCRIPT elements. [http://code.go
 
 Since VersionTwo, implementors are encouraged to explicitly define the URLs to respond to using controllers like [http://code.google.com/p/minify/source/browse/trunk/lib/Minify/Controller/Groups.php "Groups"]. 
 
-The legacy Version1 controller behaves like the 1.0 releases and simply limits requests to files within the DOCUMENT_ROOT. Minify cannot know if you've configured your web server to protect an otherwise public directory (e.g. with .htaccess); a sneaky user can request .js/.css files from this directory if he/she guesses the path! In this situation the only way you can prevent serving the file is to make it unreadable by the PHP process.
+The legacy Version1 controller behaves like the 1.0 releases and simply limits requests to files within the DOCUMENT_ROOT. It cannot know if you've configured your web server to protect an otherwise public directory (e.g. with .htaccess); a sneaky user can request .js/.css files from this directory if he/she guesses the path! In this situation the only way you can prevent serving the file is to make it unreadable by the PHP process.
 
 = Is Minify used in production by any large-scale websites? =
 
