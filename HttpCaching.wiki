@@ -17,7 +17,7 @@ In this model the server sends back an Expires header with the file indicating t
 
 This is a great model because there's no client-side latency; the browser never even re-requests the file until it changes. The only downside is more responsibility is placed on the HTML page. It _must_ be changed whenever a JS/CSS source file is updated. If you're generating your page with PHP, the [http://code.google.com/p/minify/source/browse/trunk/lib/Minify/Build.php Minify_Build] class makes this pretty easy.
 
-= Using HTTP_!ConditionalGet in other projects =
+= Using `HTTP_ConditionalGet` in other projects =
 
 Minify uses the PHP class [http://code.google.com/p/minify/source/browse/trunk/lib/HTTP/ConditionalGet.php HTTP_ConditionalGet] to implement the conditional GET model. To use this in your own project you'll need the last modification time of your content (for a file, use [http://www.php.net/filemtime filemtime()]), or a short hash digest of the content (something that changes when the content changes). You'll also want to consider if the content can be stored in public caches, or should only be stored in the user's browser.
 
