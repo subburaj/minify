@@ -1,0 +1,60 @@
+#summary Implementation of HTTP caching in Minify and usage of HTTP_ConditionalGet
+#labels Phase-Design
+
+= HTTP Caching in Minify =
+
+Minify::serve() supports one of two HTTP caching models:
+
+== Conditional GET ==
+
+In this model the server sends Last-Modified and ETag headers with the file. When the browser requests the file again it will send along If-Modified-Since and If-None-Match headers. The server checks these headers and, if the browser has the latest version, the server sends back only a slim "304 Not Modified" response (no content) and the browser uses its cached file.
+
+The downside of this method is that the browser has to keep re-requesting the file and the server has to respond before the browser cache can be used, so there is latency on the client-side and a little wasted bandwidth. Without modifying the URL, however, this is the only method you can use, so this is Minify's default.
+
+== Far Future Expires Header ==
+
+In this model the server sends back an Expires header with the file indicating that the file should be valid until far in the future (practically "forever"). In future page views the browser will not even re-request the file, instead using the cached version. When the contents change, we force the browser to re-request the file by changing its URL (just the querystring).
+
+This is a great model because there's no client-side latency; the browser never even re-requests the file until it changes. The only downside is more responsibility is placed on the HTML page. It _must_ be changed whenever a JS/CSS source file is updated. If you're generating your page with PHP, the [http://code.google.com/p/minify/source/browse/trunk/lib/Minify/Build.php Minify_Build] class makes this pretty easy.
+
+= Using HTTP_ConditionalGet in other projects =
+
+Minify uses the PHP class [http://code.google.com/p/minify/source/browse/trunk/lib/HTTP/ConditionalGet.php HTTP_ConditionalGet] to implement the conditional GET model. To use this in your own project you'll need the last modification time of your content (for a file, use [http://www.php.net/filemtime filemtime()]), or a short hash digest of the content (something that changes when the content changes). You'll also want to consider if the content can be stored in public caches, or should only be stored in the user's browser.
+
+== When the last modification time is known ==
+
+In this example we implement conditional GET for a mostly-static PHP script. The browser needs to redownload the content only when the file is updated.
+
+{{{
+// top of file
+$cg = new HTTP_ConditionalGet(array(
+  'isPublic' => true,
+  'lastUpdateTime' => filemtime(__FILE__)
+));
+$cg->sendHeaders();
+if ($cg->cacheIsValid) { // 304 already sent
+    exit();
+}
+// rest of script
+}}}
+
+For the first request the browser's cache won't be valid, so the full script will execute, sending the full content. On the next, the cache will be valid and the sendHeaders() method will have already set the 304 header, so the script can be halted.
+
+== When last modification time isn't known ==
+
+Let's say you have an HTML page in a database, but no modification time. To reduce DB requests, you cache this content in a file/memory, but you'd also like to reduce bandwidth. In this case, what you can do is also cache a hash of the page along with the content. Now you can do this:
+
+{{{
+$cache = getCache();
+$cg = new HTTP_ConditionalGet(array(
+  'isPublic' => true,
+  'contentHash' => $cache['hash']
+));
+$cg->sendHeaders();
+if ($cg->cacheIsValid) { // 304 already sent
+    exit();
+}
+echo $cache['page'];
+}}}
+
+Although Last-Modified cannot be set, ETag will serve the same purposes in most browsers, allowing the conditional GET.
