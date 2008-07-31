@@ -36,7 +36,7 @@ The legacy Version1 controller behaves like the 1.0 releases and simply limits r
 
 == Is Minify used in production by any large-scale websites? ==
 
-Usage is hard to sniff, but it appears http://lifehacker.com/ and other [http://gawker.com/ Gawker]-related sites uses Minify or a similar PHP script. There are probably a lot of smaller sites using it, at least http://mrclay.org/ and http://www.miamianimalremoval.com/.
+It appears http://lifehacker.com/ and other [http://gawker.com/ Gawker]-related sites use Minify 1.x, but I can't say for certain. There are probably a lot of smaller sites using it. E.g. http://mrclay.org/ and http://www.miamianimalremoval.com/
 
 == Can I use Minify with my commercial website or product? ==
 
