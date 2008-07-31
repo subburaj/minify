@@ -1,43 +1,43 @@
 #summary Frequently asked questions.
 #labels Featured
 
-= How fast is Minify? =
+== How fast is Minify? ==
 
-With Minify you will ideally serve _fewer_ requests, but Minify is certainly slower than your HTTPd serving flat files. If you have a high-traffic site with hundreds of simultaneous requests from new users, you should probably:
+With Minify you will ideally serve _fewer_ requests, but Minify is likely slower than your HTTPd serving flat files. If you have a high-traffic site with hundreds of simultaneous requests from new users, you should probably:
 
-  * Use the far-off Expires model in conjuction with !Minify_Build (see [http://code.google.com/p/minify/source/browse/trunk/web/examples/1/ Example 1]).
+  * Use !Minify_Build (see [http://code.google.com/p/minify/source/browse/trunk/web/examples/1/ Example 1]) so you can send far-off Expires headers.
   * Benchmark your development server before rolling out to production.
   * Place your HTTPd behind a [http://www.squid-cache.org/Intro/why.dyn reverse proxy], which can cache Minify URLs and serve them _fast_.
 
-== Will it get faster? ==
+=== Will it get faster? ===
 
 You bet. 
 
   * [http://code.google.com/p/minify/downloads/detail?name=minify-2.0.2b.zip 2.0.2 beta] has a new file cache system that makes minify almost 3x as fast! 2.0.1 had the overhead of always reading the cached file into memory, running crc32() on it, and storing the results in an array before echoing it.
   * For Apache users we're designing a feature to enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and be blazing fast. Even if you're not minifying files this will be faster gzip serving than with mod_deflate.
   
-= Does Minify support gzip compression? =
+== Does Minify support gzip compression? ==
 
 Yes. Based on the browser's Accept-Encoding header, Minify will serve content encoded with deflate or gzip.
 
-= Does Minify work with PHP opcode caches like APC and eAccelerator? =
+== Does Minify work with PHP opcode caches like APC and eAccelerator? ==
 
 Yep!
 
-= Can Minify compress HTML markup? =
+== Can Minify compress HTML markup? ==
 
-Yes, and can even minify the embedded STYLE and SCRIPT elements. [http://code.google.com/p/minify/source/browse/trunk/web/examples/2/index.php Example 2] demonstrates this.
+Yes, and it can even minify embedded STYLE and SCRIPT elements. [http://code.google.com/p/minify/source/browse/trunk/web/examples/2/index.php Example 2] demonstrates this.
 
-= How does Minify ensure that the client can't request files it shouldn't have access to? =
+== How does Minify ensure that the client can't request files it shouldn't have access to? ==
 
 Since VersionTwo, implementors are encouraged to explicitly define the URLs to respond to using controllers like [http://code.google.com/p/minify/source/browse/trunk/lib/Minify/Controller/Groups.php "Groups"]. 
 
 The legacy Version1 controller behaves like the 1.0 releases and simply limits requests to files within the DOCUMENT_ROOT. It cannot know if you've configured your web server to protect an otherwise public directory (e.g. with .htaccess); a sneaky user can request .js/.css files from this directory if he/she guesses the path! In this situation the only way you can prevent serving the file is to make it unreadable by the PHP process.
 
-= Is Minify used in production by any large-scale websites? =
+== Is Minify used in production by any large-scale websites? ==
 
-Currently I'm not aware of any large-scale websites running Minify, but the project is still very young so not many people have heard of it yet. There are a few smaller SitesUsingMinify.
+Usage is hard to sniff, but it appears http://lifehacker.com/ and other [http://gawker.com/ Gawker]-related sites uses Minify or a similar PHP script. There are probably a lot of smaller sites using it, at least http://mrclay.org/ and http://www.miamianimalremoval.com/.
 
-= Can I use Minify with my commercial website or product? =
+== Can I use Minify with my commercial website or product? ==
 
-Sure. Minify is distributed under the [http://www.opensource.org/licenses/bsd-license.php New BSD License], which means that you're free to use, modify, and redistribute Minify or derivative works thereof, even for commercial purposes, as long as you comply with a few simple requirements. See the [http://minify.googlecode.com/svn/trunk/LICENSE LICENSE] file for details.
+Yes. Minify is distributed under the [http://www.opensource.org/licenses/bsd-license.php New BSD License], which means that you're free to use, modify, and redistribute Minify or derivative works thereof, even for commercial purposes, as long as you comply with a few simple requirements. See the [http://minify.googlecode.com/svn/trunk/LICENSE LICENSE] file for details.
