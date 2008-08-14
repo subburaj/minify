@@ -143,9 +143,11 @@ $serveOptions = array(
     ,'setExpires' => $_SERVER['REQUEST_TIME'] + 31536000 // now + 1 yr
 );
 // pass the 'prependRelativePath' to the CSS minifier:
-$serveOptions['perType'][Minify::TYPE_CSS]['prependRelativePath'] = '/css/';
+$serveOptions['minifierOptions'][Minify::TYPE_CSS]['prependRelativePath'] = '/css/';
 Minify::serve('Groups', $serveOptions);
 }}}
+
+*Note:* Before 2.0.2b replace `['minifierOptions']` with `['perType']`.
 
 === Notes ===
 
