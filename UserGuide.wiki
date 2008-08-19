@@ -149,6 +149,8 @@ Minify::serve('Groups', $serveOptions);
 
 *Note:* Before 2.0.2b replace `['minifierOptions']` with `['perType']`.
 
+*Note:* In the next release, this section will be unneeded as relative URIs will be automatically fixed for you.
+
 === Notes ===
 
   * You can name "min.php" anything you like (as long as it's executed as PHP) and place it anywhere in webroot. In the examples it's often "m.php".
