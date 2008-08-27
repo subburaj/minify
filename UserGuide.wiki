@@ -3,7 +3,7 @@
 
 = Installation =
 
-1. [http://code.google.com/p/minify/downloads/list Download] the latest version of Minify and extract the files to a new "minify" directory, ideally outside of the webroot.
+1. [http://code.google.com/p/minify/downloads/list Download] Minify 2.0.2b and extract the files to a new "minify" directory, ideally outside of the webroot.
 
 Done! Minify is just the library of files inside minify/lib.
 
@@ -37,9 +37,13 @@ You should see "HTTP/1.0 400 Bad Request". Minify is working, let's give it some
 
 *Terminology:* From here on I'll use "minify URI" to mean a URI that points to a Minify server, like "min.php/" in our example.
 
-3. Note the paths of a few Javascript files you'd like to serve together. If they're in the webroot, we can substitue "//" for the DOCUMENT_ROOT.
+3. Note the file paths of a few Javascript files you'd like to serve together. If they're in the same webroot as your minifying script, we can substitue "//" for the DOCUMENT_ROOT.
 
-E.g.: `//js/jQuery.js` is a shortcut for `{$_SERVER['DOCUMENT_ROOT']}/js/jQuery.js`.
+E.g.: `'//js/jQuery.js'` is a shortcut for `"{$_SERVER['DOCUMENT_ROOT']}/js/jQuery.js"`.
+
+*Note:* Use file paths, not HTTP URIs. `/file.js` would result in PHP looking for file.js in the root directory of a Unix-ish filesystem. 
+
+To specify a file on a different virtual host, don't use `http://different.com/file.js`, instead give its path from root: `/home/user/different.com/file.js`.
 
 4. Add them to the 'groups' array inside the `Minify::serve()` call, like this:
 
