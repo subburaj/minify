@@ -1,15 +1,27 @@
 #summary Your friendly guide to installing and using Minify.
 #labels Phase-Deploy,Featured
 
-= Installation =
+= Installing Minify 2.1 =
 
-1. [http://code.google.com/p/minify/downloads/list Download] Minify 2.0.2b and extract the files to a new "minify" directory, ideally outside of the webroot.
+1. [http://code.google.com/p/minify/downloads/list Download] Minify 2.1.0 and unzip the files to a new "minify" directory.
 
-Done! Minify is just the library of files inside minify/lib.
+2. Copy the "min" folder directly into your DOCUMENT_ROOT.
 
-(Optional) See TestingMinify if you'd like to run unit tests or see example configurations in action.
+Done!
+
+(Optional) See TestingMinify if you'd like to run unit tests.
 
 = Usage =
+
+1. Browse to http://yourdomain.com/min/
+
+The Minify URI Builder will help you create URIs you can use to minify existing files on your site.
+
+== Previous Releases ==
+
+The following info applies only to the Minify 2.0 releases. Most users will not need to do any of this as of version 2.1.
+
+== Using the Groups controller ==
 
 We're going to build a small PHP file that calls `Minify::serve()`, turning it into an HTTP server for our Javascript and CSS.
 
@@ -153,7 +165,7 @@ Minify::serve('Groups', $serveOptions);
 
 *Note:* Before 2.0.2b replace `['minifierOptions']` with `['perType']`.
 
-*Note:* In the next release, this section will be unneeded as relative URIs will be automatically fixed for you.
+*Note:* In version 2.1, this section will be unneeded as relative URIs are automatically fixed for you.
 
 === Notes ===
 
