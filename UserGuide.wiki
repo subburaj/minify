@@ -13,7 +13,7 @@ Done!
 
 = Usage =
 
-1. Browse to http://yourdomain.com/min/
+1. Browse to http://example.com/min/
 
 The Minify URI Builder will help you create URIs you can use to minify existing files on your site.
 
@@ -43,7 +43,7 @@ Minify::serve('Groups', array(
 ));
 }}}
 
-2. Open a non-IE/win web browser to http://yourhost/min.php/ (IE/win will not display Javascript files directly.)
+2. Open a non-IE/win web browser to http://example.com/min.php/ (IE/win will not display Javascript files directly.)
 
 You should see "HTTP/1.0 400 Bad Request". Minify is working, let's give it something to serve.
 
@@ -55,7 +55,7 @@ E.g.: `'//js/jQuery.js'` is a shortcut for `"{$_SERVER['DOCUMENT_ROOT']}/js/jQue
 
 *Note:* Use file paths, not HTTP URIs. `/file.js` would result in PHP looking for file.js in the root directory of a Unix-ish filesystem. 
 
-To specify a file on a different virtual host, don't use `http://different.com/file.js`, instead give its path from root: `/home/user/different.com/file.js`.
+To specify a file on a different virtual host, don't use `http://example.com/file.js`, instead give its path from root: `/home/user/example.com/file.js`.
 
 4. Add them to the 'groups' array inside the `Minify::serve()` call, like this:
 
@@ -67,7 +67,7 @@ Minify::serve('Groups', array(
 ));
 }}}
 
-5. Browse to http://yourhost/min.php/js1
+5. Browse to http://example.com/min.php/js1
 
 After a brief delay (on the first request PHP has to compress the files), you'll receive a single minified Javascript file containing the code of "yourFile1.js" and "yourFile2.js". The file will also be sent with deflate or gzip encoding, depending on your browser.
 
@@ -90,9 +90,9 @@ Minify::serve('Groups', array(
 
 Now you can also use these URLs:
 
-  * http://yourhost/min.php/js2
-  * http://yourhost/min.php/jQuery (serve jQuery by itself)
-  * http://yourhost/min.php/css (serve CSS)
+  * http://example.com/min.php/js2
+  * http://example.com/min.php/jQuery (serve jQuery by itself)
+  * http://example.com/min.php/css (serve CSS)
 
 == Sending far future Expires headers ==
 
