@@ -3,18 +3,15 @@
 
 == How fast is Minify? ==
 
-With Minify you will ideally serve _fewer_ requests, but Minify is likely slower than your HTTPd serving flat files. If you have a high-traffic site with hundreds of simultaneous requests from new users, you should probably:
+With Minify you will ideally serve _fewer_ requests, but Minify can be slower than your HTTPd serving flat files. If you have a high-traffic site with hundreds of simultaneous requests from new users, you should probably:
 
-  * Use !Minify_Build (see [http://code.google.com/p/minify/source/browse/trunk/web/examples/1/ Example 1]) so you can send far-off Expires headers.
-  * Benchmark your development server before rolling out to production.
   * Place your HTTPd behind a [http://www.squid-cache.org/Intro/why.dyn reverse proxy], which can cache Minify URLs and serve them _fast_.
+  * Benchmark Minify on your development server before rolling out to production.
+  * Use [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/README.txt#69 predefined groups] and the [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/utils.php#11 Minify_groupUri()] utility function (or some other method) to revision your URIs. Minify will automatically send far-off Expires headers.
 
 === Will it get faster? ===
 
-You bet. 
-
-  * [http://code.google.com/p/minify/downloads/detail?name=minify-2.0.2b.zip 2.0.2 beta] has a new file cache system that makes minify almost 3x as fast! 2.0.1 had the overhead of always reading the cached file into memory, running crc32() on it, and storing the results in an array before echoing it.
-  * For Apache users we're designing a feature to enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and be blazing fast. Even if you're not minifying files this will be faster gzip serving than with mod_deflate.
+Ideally. For Apache users we're designing a feature to enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and be blazingly fast. Even if you're not minifying files this will be faster than serving files with Apache's mod_deflate.
   
 == Does Minify support gzip compression? ==
 
@@ -24,15 +21,17 @@ Yes. Based on the browser's Accept-Encoding header, Minify will serve content en
 
 Yep!
 
-== Can Minify compress HTML markup? ==
+== Is there a minifier for HTML? ==
 
-Yes, and it can even minify embedded STYLE and SCRIPT elements. [http://code.google.com/p/minify/source/browse/trunk/web/examples/2/index.php Example 2] demonstrates this.
+Yes, and it can even minify embedded STYLE and SCRIPT elements. The [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/builder/index.php?r=227 Minify URI Builder] app demonstrates this.
 
 == How does Minify ensure that the client can't request files it shouldn't have access to? ==
 
-Since VersionTwo, implementors are encouraged to explicitly define the URLs to respond to using controllers like [http://code.google.com/p/minify/source/browse/trunk/lib/Minify/Controller/Groups.php "Groups"]. 
+In 2.1, by default, Minify allows files to be specified using the URI, or using pre-configured sets of files.
 
-The legacy Version1 controller behaves like the 1.0 releases and simply limits requests to files within the DOCUMENT_ROOT. It cannot know if you've configured your web server to protect an otherwise public directory (e.g. with .htaccess); a sneaky user can request .js/.css files from this directory if he/she guesses the path! In this situation the only way you can prevent serving the file is to make it unreadable by the PHP process.
+With URI-specified files, Minify serves only ".css" and ".js" files, and only from a configurable set of allowable directories within the DOCUMENT_ROOT. It cannot know if you've configured your web server to protect an otherwise public directory (e.g. with .htaccess); a sneaky user can request .js/.css files from this directory if he/she guesses the path!
+
+An included option can disable URI-specified files so Minify will serve only the pre-configured file sets.
 
 == Is Minify used in production by any large-scale websites? ==
 
