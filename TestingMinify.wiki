@@ -1,38 +1,12 @@
 #summary How to test Minify on your web server
 #labels Phase-Implementation
 
-= Unit Tests and Examples =
+= Unit Testing =
 
-== Setup ==
+0. If you haven't already, install Minify using the UserGuide.
 
-0. If you haven't already, [http://code.google.com/p/minify/downloads/list download] the latest version of Minify and extract the files to a new "minify" directory, ideally outside of the webroot.
+1. Copy the "min_unit_tests" directory directly into your DOCUMENT_ROOT.
 
-1. Copy the "web" directory somewhere inside your webroot and rename it "minify-web".
+2. Browse to http://yourdomain.com/min_unit_tests/test-all.php
 
-*Note*: At the end we will delete this copy.
-
-2. Edit line 8 of "minify-web/config.php" so it contains the path to minify/lib (wherever you put it).
-
-3. Edit line 16 so $minifyCachePath is set to a server-writable directory.
-
-== Unit Tests ==
-
-To run all unit tests, open your browser to "http://yourhost/path/to/minify-web/test/test-all.php".
-
-You should see a list of "PASS"es. You can run the individual test PHP files in /test/ to see expected vs. actual output.
-
-== Examples ==
-
-To really see the effect of Minify, use [http://developer.yahoo.com/yslow/ YSlow] and check the "Components" tab. Clicking the magnifying glass next to each URL will show the headers Minify sends.
-
-Browse to "http://yourhost/path/to/minify-web/examples/1/".
-
-Both lines under "Minify tests" should read "PASS". This may take a few seconds the first time as Minify has to compress jQuery! Reloading the page via the "Reload page" link should be near instantaneous as the external js/css files will have be cached by the browser.
-
-Example 2 additionally serves the XHTML page via Minify.
-
-Example 3 uses conditional GETs rather than sending far-off Expires headers for the js/css files.
-
-== Clean up ==
-
-*Delete the "minify-web" directory when you're done.* It is not necessary for Minify's functionality.
+You should see a list of "PASS"es. You can run the individual test PHP files in http://yourdomain.com/min_unit_tests/ for more verbose output.
