@@ -17,6 +17,10 @@ Done!
 
 The Minify URI Builder will help you create URIs you can use to minify existing files on your site.
 
+= Configuration =
+
+Most configuration options are located in [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/config.php min/config.php]. To set up groups of files to minify, this can specified in [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/groupsConfig.php min/groupsConfig.php] (The builder application will help with this).
+
 == Previous Releases ==
 
 The following info applies only to the Minify 2.0 releases. Most users will not need to do any of this as of version 2.1.
