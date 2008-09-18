@@ -1,7 +1,24 @@
 #summary Minify release history.
 #labels Featured
 
-== [http://code.google.com/p/minify/downloads/list Version 2.0.0] (2008-05-22) ==
+== [http://code.google.com/p/minify/downloads/list Version 2.1.0] (2008-09-18) ==
+    * "min" default application for quick deployment
+    * Minify URI Builder app & bookmarklet for quickly creating minify URIs
+    * Relative URIs in CSS file are fixed automatically by default
+    * "debug" mode for revealing original line #s in combined files
+    * Better IIS support
+    * Improved minifier classes:
+      * JS: preserves IE conditional comments
+      * CSS: smaller output, preserves more hacks and valid CSS syntax, shorter line lengths, other bug fixes
+      * HTML: smaller output, shorter line lengths, other bug fixes
+    * Default Cache-Control: max-age of 30 minutes
+    * Conditional GETs supported even when max-age sent
+    * Experimental memcache cache class (default is files)
+    * Minify_Cache_File has flock()s (by default)
+    * Workaround for Windows mtime reporting bug
+
+
+== Version 2.0.0 (2008-05-22) ==
   * Complete code overhaul. Minify is now a PEAR-style class and toolkit for building customized minifying file servers.
   * Content-Encoding: deflate/gzip/compress, based on request headers
   * Expanded CSS and HTML minifiers with test cases
