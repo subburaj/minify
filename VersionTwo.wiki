@@ -1,5 +1,5 @@
 #summary About Version 2
-#labels Phase-Implementation,Phase-Design,Featured
+#labels Phase-Implementation,Phase-Design
 
 = Minify 2 =
 
