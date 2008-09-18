@@ -3,19 +3,19 @@
 
 = HTTP Caching in Minify =
 
-Minify::serve() supports one of two HTTP caching models:
-
 == Conditional GET ==
 
-In this model the server sends Last-Modified and ETag headers with the file. When the browser requests the file again it will send along If-Modified-Since and If-None-Match headers. The server checks these headers and, if the browser has the latest version, the server sends back only a slim "304 Not Modified" response (no content) and the browser uses its cached file.
+Minify sends all files with Last-Modified and ETag headers. If the browser requests a file again it will send along If-Modified-Since and If-None-Match headers. Minify checks these headers and, if the browser has the latest version, sends back only a slim "304 Not Modified" response (no content), telling the browser to use its cached file.
 
-The downside of this method is that the browser has to keep re-requesting the file and the server has to respond before the browser cache can be used, so there is latency on the client-side and a little wasted bandwidth. Without modifying the URL, however, this is the only method you can use, so this is Minify's default.
+== Expires Header ==
 
-== Far Future Expires Header ==
+Minify also sends Expires and Cache-Control: max-age headers, indicating that the file should be considered valid for a period of time. In future page views the browser will not re-request the file (unless the user refreshes), and instead will use the cached version.
 
-In this model the server sends back an Expires header with the file indicating that the file should be valid until far in the future (practically "forever"). In future page views the browser will not even re-request the file, instead using the cached version. When the contents change, we force the browser to re-request the file by changing its URL (just the querystring).
+By default, Minify sends an Expires header for 30 minutes into the future. This means your file changes may not be seen by users immediately after you make them. If your changes must be seen immediately, you should reduce [http://code.google.com/p/minify/source/browse/trunk/min/config.php#48 max-age] to 0 a half hour before making changes (then change it back to 1500 when done).
 
-This is a great model because there's no client-side latency; the browser never even re-requests the file until it changes. The only downside is more responsibility is placed on the HTML page. It _must_ be changed whenever a JS/CSS source file is updated. If you're generating your page with PHP, the [http://code.google.com/p/minify/source/browse/trunk/lib/Minify/Build.php Minify_Build] class makes this pretty easy.
+== Far-off Expires ==
+
+When pre-set groups are used and a number is appended to the minify URI (e.g. `/min/g=css&456`), then Minify sends an Expires date of 1 year in the future. This is great for caching, but places responsibility on your HTML pages. They _must_ change the number whenever a JS/CSS source file is updated, or the browser will not know to re-request the file. If you're generating your page with PHP, the [http://code.google.com/p/minify/source/browse/trunk/min/utils.php?r=222#11 Minify_groupUri] utility function can make this easier to manage.
 
 = Using `HTTP_ConditionalGet` in other projects =
 
