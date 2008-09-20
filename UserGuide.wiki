@@ -3,9 +3,9 @@
 
 = Installing Minify 2.1 =
 
-1. [http://code.google.com/p/minify/downloads/list Download] Minify 2.1.0 and unzip the files to a new "minify" directory.
+[http://code.google.com/p/minify/downloads/list Download] Minify 2.1.0 and unzip the files to a new "minify" directory.
 
-2. Copy the "min" folder directly into your DOCUMENT_ROOT.
+Copy the "min" folder directly into your DOCUMENT_ROOT.
 
 Done!
 
@@ -13,9 +13,9 @@ Done!
 
 = Usage =
 
-1. Browse to http://example.com/min/
+Browse to http://example.com/min/
 
-The Minify URI Builder will help you create URIs you can use to minify existing files on your site.
+The Minify URI Builder will help you create URIs you can use to minify existing files on your site. You can see screenshots and get a feel for this process from this [http://mrclay.org/index.php/2008/09/19/minify-21-on-mrclayorg/ walkthrough on mrclay.org]
 
 = Configuration =
 
