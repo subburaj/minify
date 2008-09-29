@@ -19,11 +19,13 @@ Yes. Based on the browser's Accept-Encoding header, Minify will serve content en
 
 == Does Minify work with PHP opcode caches like APC and eAccelerator? ==
 
-Yep!
+Yes!
 
 == Is there a minifier for HTML? ==
 
-Yes, and it can even minify embedded STYLE and SCRIPT elements. The [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/builder/index.php?r=227 Minify URI Builder] app demonstrates this.
+[http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/HTML.php Yes], and it can even minify embedded STYLE and SCRIPT elements. Since Minify_HTML is not fast, the best time to use it is when storing HTML; e.g., in a DB keep one copy for editing and one minified for serving.
+
+Minify is not suited for _serving_ HTML pages on a site, though it can be done for small numbers of static pages.
 
 == How does Minify ensure that the client can't request files it shouldn't have access to? ==
 
