@@ -41,7 +41,7 @@ set_include_path(
 );
 
 require 'Minify.php';
-Minify::useServerCache();
+Minify::setCache(); // in 2.0 was "useServerCache"
 Minify::serve('Groups', array(
     'groups' => array()
 ));
@@ -145,7 +145,8 @@ echo "<script type='text/javascript' src='" . $js1Build->uri('/min.php/js1') . "
 {{{
 Minify::serve('Groups', array(
     'groups' => (require '_groupsConfig.php')
-    ,'setExpires' => $_SERVER['REQUEST_TIME'] + 31536000 // now + 1 yr
+    ,'maxAge' => 31536000 // 1 yr
+    // in 2.0 was 'setExpires' => $_SERVER['REQUEST_TIME'] + 31536000
 ));
 }}}
 
@@ -153,14 +154,15 @@ Now "min.php" will serve files with Expires headers, causing the browser to alwa
 
 When you make a change to any of your source Javascript/CSS files, your HTML file will have a different querystring appended to the minify URIs, causing the browser to download it as a new URL, and Minify will automatically rebuild its cache files on the server.
 
-== Fixing URIs in CSS files ==
+== Fixing URIs in CSS files (not required as of 2.1) ==
 
 If you serve CSS with Minify you may notice your relative URIs in your CSS no longer point to the right places. To fix this, `serve()` can be pass an option to the CSS minifier that will prepend a string to all relative URIs. E.g.:
 
 {{{
 $serveOptions = array(
     'groups' => (require '_groupsConfig.php')
-    ,'setExpires' => $_SERVER['REQUEST_TIME'] + 31536000 // now + 1 yr
+    ,'maxAge' => 31536000 // 1 yr
+    // in 2.0 was 'setExpires' => $_SERVER['REQUEST_TIME'] + 31536000
 );
 // pass the 'prependRelativePath' to the CSS minifier:
 $serveOptions['minifierOptions'][Minify::TYPE_CSS]['prependRelativePath'] = '/css/';
@@ -176,4 +178,4 @@ Minify::serve('Groups', $serveOptions);
   * You can name "min.php" anything you like (as long as it's executed as PHP) and place it anywhere in webroot. In the examples it's often "m.php".
   * You can use MultiViews or mod_rewrite to allow minify URIs like "/min/js" if you prefer. The "Groups" controller just expects a PATH_INFO server variable like "/js".
   * You can use multiple "min.php" files for serving with different options. E.g. If you want to use conditional GET on some requests, just make a copy of "min.php" without the 'setExpires' option and rename it something like "cgmin.php".
-  * More [http://code.google.com/p/minify/source/browse/tags/release_2.0.1/lib/Minify.php#65 serve options] are documented in the source.
+  * More [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify.php#76 serve options] are documented in the source.
