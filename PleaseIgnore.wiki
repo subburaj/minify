@@ -14,10 +14,6 @@ Minify is a PHP5 app that can combine multiple CSS or Javascript files, compress
 
 The default installation is similar to Yahoo's [http://yuiblog.com/blog/2008/07/16/combohandler/ Combo Handler Service], except that Minify can combine _any_ local JS/CSS files you need for your page. Since Combo has the advantage of CDN hosting, you may want to use Combo for libraries and Minify for your local files.
 
-==[ComponentClasses PHP5 Component Classes]==
-
-Minify is based on several [ComponentClasses PHP5 classes] that may be useful in other projects (all BSD licensed).
-
 ==News==
 
 2008-09-18 [http://code.google.com/p/minify/downloads/detail?name=minify_2.1.0.zip Minify 2.1] released! With this release, Minify is easier than ever to integrate into your site. The [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/HISTORY.txt history] file lists more new features.
@@ -45,6 +41,10 @@ Minify is based on several [ComponentClasses PHP5 classes] that may be useful in
 ==Installation==
 
 See the [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/README.txt README] of the appropriate release
+
+==PHP5 Component Classes==
+
+Minify is based on several [ComponentClasses PHP5 classes] that may be useful in other projects (all BSD licensed).
 
 ==Warning==
 
