@@ -14,17 +14,9 @@ Minify is a PHP5 app that can combine multiple CSS or Javascript files, compress
 
 The default installation is similar to Yahoo's [http://yuiblog.com/blog/2008/07/16/combohandler/ Combo Handler Service], except that Minify can combine _any_ local JS/CSS files you need for your page. Since Combo has the advantage of CDN hosting, you may want to use Combo for libraries and Minify for your local files.
 
-==PHP5 Component Classes==
+==[ComponentClasses PHP5 Component Classes]==
 
-Minify is based on several PHP5 classes that may be useful in other projects (all BSD licensed).
-
-|| *Class* || *Functionality* ||
-|| [http://code.google.com/p/minify/source/browse/trunk/min/lib/JSMin.php JSMin] || A port of [http://www.crockford.com/javascript/jsmin.html jsmin.c], extended to preserve some multi-line comments and IE conditional comments (since these occasionally have their [http://dean.edwards.name/weblog/2007/03/sniff/ uses]). ||
-|| [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/CSS.php Minify_CSS] || Agressively minifies CSS. Includes a thorough [http://code.google.com/p/minify/source/browse/trunk/min_unit_tests/_test_files/css/ test suite] to make sure most common [http://code.google.com/p/minify/source/browse/trunk/min_unit_tests/_test_files/css/hacks.css hacks] and [http://code.google.com/p/minify/source/browse/trunk/min_unit_tests/_test_files/css/unusual_strings.css unusual syntaxes] are preserved. ||
-|| [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/HTML.php Minify_HTML] || Agressively minifies (X)HTML markup. Preserves TEXTAREA/PRE contents, can invoke minifiers on STYLE and SCRIPT blocks, and wraps content in CDATA blocks in XHTML when necessary. Includes [http://code.google.com/p/minify/source/browse/trunk/min_unit_tests/_test_files/html/ test suite]. ||
-|| [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/YUICompressor.php Minify_YUICompressor] || (Experimental) PHP wrapper for invoking the Java-based [http://developer.yahoo.com/yui/compressor/ YUI Compressor] ||
-|| [http://code.google.com/p/minify/source/browse/trunk/min/lib/HTTP/Encoder.php HTTP_Encoder] || Applies HTTP encoding to content. Can serve content with conditional encoding based on Accept-Encoding headers (parsed according to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html HTTP spec]) and known browser bugs. ||
-|| [http://code.google.com/p/minify/source/browse/trunk/min/lib/HTTP/ConditionalGet.php HTTP_ConditionalGet] || Implements HTTP conditional GETs via a simple, flexible API. ||
+Minify is based on several [ComponentClasses PHP5 classes] that may be useful in other projects (all BSD licensed).
 
 ==News==
 
