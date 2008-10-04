@@ -7,14 +7,16 @@
 
 =Minify!=
 
+Minify is a PHP5 app that can combine multiple CSS or Javascript files, compress their contents without affecting functionality (e.g. removal of unnecessary whitespace/comments), and serve the results with HTTP encoding (gzip/deflate) and headers that allow optimal client-side caching. This helps you follow rules 1, 3, 4, 10, 13, and 33 of Yahoo!'s [http://developer.yahoo.com/performance/index.html#rules Rules for High Performance Web Sites]. (See "[#Problem_Domain Problem Domain]" below for more info)
+
 || *Before* || http://mrclay.org/wp-content/uploads/2008/09/fiddler_before.png ||
 || *After* || http://mrclay.org/wp-content/uploads/2008/09/fiddler_after.png ||
-
-Minify is a PHP app that can combine multiple CSS or Javascript files, compress their contents without affecting functionality (e.g. removal of unnecessary whitespace/comments), and serve the results with HTTP encoding (gzip/deflate) and headers that allow optimal client-side caching. This helps you follow rules 1, 3, 4, 10, 13, and 33 of Yahoo!'s [http://developer.yahoo.com/performance/index.html#rules Rules for High Performance Web Sites]. (See "Problem Domain" below for more info)
 
 The default installation is similar to Yahoo's [http://yuiblog.com/blog/2008/07/16/combohandler/ Combo Handler Service], except that Minify can combine _any_ local JS/CSS files you need for your page. Since Combo has the advantage of CDN hosting, you may want to use Combo for libraries and Minify for your local files.
 
 ==PHP5 Component Classes==
+
+Minify is based on several PHP5 classes that may be useful in other projects (all BSD licensed).
 
 || *Class* || *Functionality* ||
 || [http://code.google.com/p/minify/source/browse/trunk/min/lib/JSMin.php JSMin] || A port of [http://www.crockford.com/javascript/jsmin.html jsmin.c], extended to preserve some multi-line comments and IE conditional comments (since these occasionally have their [http://dean.edwards.name/weblog/2007/03/sniff/ uses]). ||
@@ -23,3 +25,56 @@ The default installation is similar to Yahoo's [http://yuiblog.com/blog/2008/07/
 || [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/YUICompressor.php Minify_YUICompressor] || (Experimental) PHP wrapper for invoking the Java-based [http://developer.yahoo.com/yui/compressor/ YUI Compressor] ||
 || [http://code.google.com/p/minify/source/browse/trunk/min/lib/HTTP/Encoder.php HTTP_Encoder] || Applies HTTP encoding to content. Can serve content with conditional encoding based on Accept-Encoding headers (parsed according to [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html HTTP spec]) and known browser bugs. ||
 || [http://code.google.com/p/minify/source/browse/trunk/min/lib/HTTP/ConditionalGet.php HTTP_ConditionalGet] || Implements HTTP conditional GETs via a simple, flexible API. ||
+
+==News==
+
+2008-09-18 [http://code.google.com/p/minify/downloads/detail?name=minify_2.1.0.zip Minify 2.1] released! With this release, Minify is easier than ever to integrate into your site. The [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/HISTORY.txt history] file lists more new features.
+
+==Features==
+
+  * Combines and minifies multiple CSS or !JavaScript files into a single download
+  * Uses an [http://code.google.com/p/minify/source/browse/trunk/min/lib/JSMin.php enhanced port] of Douglas Crockford's [http://www.crockford.com/javascript/jsmin.html JSMin library] and custom classes to minify [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/CSS.php CSS] and [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/HTML.php HTML]
+  * Caches server-side to avoid doing unnecessary work
+  * Responds with an HTTP 304 (Not Modified) response when the browser has an up-to-date cache copy
+  * Most modules are lazy-loaded as needed (304 responses use minimal code)
+  * Automatically rewrites relative URIs in combined CSS files to point to valid locations
+  * With caching enabled, Minify is capable of handling hundreds of requests per second on a moderately powerful server. 
+  * Content-Encoding: deflate/gzip, based on request headers. Caching allows it so serve deflated files faster than Apache's mod_deflate option!
+  * Test cases for most components
+  * Easy integration of 3rd-party minifiers
+  * Separate utility classes for HTTP encoding and cache control
+
+==Requirements==
+
+  * Version 2.1.0 has been tested on PHP 5.1.6.
+  * The commonly installed [http://us3.php.net/manual/en/zlib.installation.php zlib extension] is required for HTTP encoding.
+  * Version 1.0.1 required PHP 5.2.1+.
+
+==Installation==
+
+See the [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/README.txt README] of the appropriate release
+
+==Warning==
+
+Minify is designed for efficiency, but, for very high traffic sites, Minify may serve files slower than your HTTPd due to the CGI overhead of PHP. See the [FAQ] for more info.
+
+==Problem Domain==
+
+Pages that refer to multiple CSS or !JavaScript files often suffer from slower page loads, due to the browser requesting each file individually. Many browsers also are limited to a few simultaneous requests per domain. The wait for a series of requests and the transfer of unoptimized files can dramatically reduce the client-side performance of your site.
+
+Here are some of Yahoo!'s best practices that are addressed by the use of Minify.
+
+  * [http://developer.yahoo.com/performance/rules.html#num_http Make Fewer HTTP Requests]
+  * [http://developer.yahoo.com/performance/rules.html#expires Add an Expires or a Cache-Control Header]
+  * [http://developer.yahoo.com/performance/rules.html#gzip Gzip Components]
+  * [http://developer.yahoo.com/performance/rules.html#minify Minify JavaScript and CSS]
+  * [http://developer.yahoo.com/performance/rules.html#etags Configure ETags]
+  * [http://developer.yahoo.com/performance/rules.html#under25 Keep Components under 25K]
+
+===Acknowledgments===
+
+Minify was inspired by [http://code.google.com/p/jscsscomp/ jscsscomp] by Maxim Martynyuk and by the article '[http://www.hunlock.com/blogs/Supercharged_Javascript Supercharged JavaScript]' by Patrick Hunlock.
+
+The [http://www.crockford.com/javascript/jsmin.html JSMin library] used for !JavaScript minification was originally written by Douglas Crockford and was [http://code.google.com/p/jsmin-php ported to PHP] by Ryan Grove specifically for use in Minify.
+
+You may contact Steve Clay (steve@mrclay.org) or Ryan (ryan@wonko.com) if you're interested in joining the project.
