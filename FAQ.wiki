@@ -1,7 +1,7 @@
 #summary Frequently asked questions.
 #labels Featured
 
-== How fast is Minify? ==
+== How fast is it? ==
 
 With Minify you will ideally serve _fewer_ requests, but Minify can be slower than your HTTPd serving flat files. If you have a high-traffic site with hundreds of simultaneous requests from new users, you should probably:
 
@@ -12,12 +12,16 @@ With Minify you will ideally serve _fewer_ requests, but Minify can be slower th
 === Will it get faster? ===
 
 Ideally. For Apache users we're designing a feature to enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and be blazingly fast. Even if you're not minifying files this will be faster than serving files with Apache's mod_deflate.
-  
-== Does Minify support gzip compression? ==
+
+== How does it compare with other services? ==
+
+Yahoo's [http://yuiblog.com/blog/2008/07/16/combohandler/ Combo Handler] and Google's [http://code.google.com/apis/ajaxlibs/ AJAX Libraries API] both serve content from their heavy-duty [http://en.wikipedia.org/wiki/Content_Delivery_Network CDN]s and _potentially_ increase the chance that your visitor will already have a file in her browser cache. Neither service serves custom content that you provide. You may wish to use these services to serve popular libraries and Minify to serve your code.
+
+== Does it support gzip compression? ==
 
 Yes. Based on the browser's Accept-Encoding header, Minify will serve content encoded with deflate or gzip.
 
-== Does Minify work with PHP opcode caches like APC and eAccelerator? ==
+== Does it work with PHP opcode caches like APC and eAccelerator? ==
 
 Yes!
 
@@ -27,7 +31,7 @@ Yes!
 
 Minify is not suited for _serving_ HTML pages on a site, though it can be done for small numbers of static pages.
 
-== How does Minify ensure that the client can't request files it shouldn't have access to? ==
+== How does it ensure that the client can't request files it shouldn't have access to? ==
 
 In 2.1, by default, Minify allows files to be specified using the URI, or using pre-configured sets of files.
 
@@ -35,10 +39,10 @@ With URI-specified files, Minify serves only ".css" and ".js" files, and only fr
 
 An included option can disable URI-specified files so Minify will serve only the pre-configured file sets.
 
-== Is Minify used in production by any large-scale websites? ==
+== Is it used in production by any large-scale websites? ==
 
 It appears http://lifehacker.com/ and other [http://gawker.com/ Gawker]-related sites use Minify 1.x, but I can't say for certain. There are probably a lot of smaller sites using it. E.g. http://mrclay.org/ and http://www.miamianimalremoval.com/
 
-== Can I use Minify with my commercial website or product? ==
+== Can I use it with my commercial website or product? ==
 
 Yes. Minify is distributed under the [http://www.opensource.org/licenses/bsd-license.php New BSD License], which means that you're free to use, modify, and redistribute Minify or derivative works thereof, even for commercial purposes, as long as you comply with a few simple requirements. See the [http://minify.googlecode.com/svn/trunk/LICENSE LICENSE] file for details.
