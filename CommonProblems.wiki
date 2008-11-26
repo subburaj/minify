@@ -1,0 +1,18 @@
+#summary Common Problems using Minify
+#labels Featured,Phase-Support
+
+== Debug mode can cause a Javascript error ==
+
+Debug mode uses the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/Lines.php Minify_Lines] class to add line numbers in comments. Unfortunately, if the source file has a string or regex containing (what looks like) a C-style comment token, the algorithm is confused and the injected comments cause a syntax error. If you prefer not to alter your source file, [http://code.google.com/p/minify/issues/detail?id=55#5 issue 55] has a simple workaround that removes the line numbers from debug mode.
+
+== Minification can cause a Javascript error ==
+
+In rare instances the [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/JSMin.php#14 JSMin] algorithm can be confused by regexes in certain contexts. E.g. JSMin will fail on the following: 
+{{{
+return /'/;
+}}}
+The current workaround is to simply wrap the expression in parenthesis: 
+{{{
+return (/'/);
+}}}
+[http://code.google.com/p/minify/source/browse/trunk/min/lib/MyMin.php Andrea Giammarchi's extension of JSMin] resolves this issue, and we're working to merge that fix into JSMin.
