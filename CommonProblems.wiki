@@ -7,12 +7,10 @@ Debug mode uses the [http://code.google.com/p/minify/source/browse/trunk/min/lib
 
 == Minification can cause a Javascript error ==
 
-In rare instances the [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/JSMin.php#14 JSMin] algorithm can be confused by regexes in certain contexts and throw an exception. E.g. JSMin will fail on the following: 
+In rare instances the [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/JSMin.php#14 JSMin] algorithm can be confused by regexes in certain contexts and throw an exception. The current workaround is to simply wrap the expression in parenthesis. E.g.
 {{{
-return /'/; // JSMin throws error
-}}}
-The current workaround is to simply wrap the expression in parenthesis: 
-{{{
+return /'/;   // JSMin throws error
+
 return (/'/); // no error
 }}}
-[http://code.google.com/p/minify/source/browse/trunk/min/lib/MyMin.php Andrea Giammarchi's extension of JSMin] resolves this issue, and we're working to merge that fix into JSMin.
+[http://code.google.com/p/minify/source/browse/trunk/min/lib/MyMin.php Andrea Giammarchi's extension of JSMin] resolves this issue, and we're working to merge that fix into our JSMin.
