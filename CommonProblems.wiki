@@ -3,7 +3,7 @@
 
 == Debug mode can cause a Javascript error ==
 
-Debug mode uses the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/Lines.php Minify_Lines] class to add line numbers in comments. Unfortunately, if the source file has a string or regex containing (what looks like) a C-style comment token, the algorithm is confused and the injected comments cause a syntax error. If you prefer not to alter your source file, [http://code.google.com/p/minify/issues/detail?id=55#5 issue 55] has a simple workaround that removes the line numbers from debug mode.
+Debug mode uses the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/Lines.php Minify_Lines] class to add line numbers in comments. Unfortunately, if the source file has a string or regex containing (what looks like) a C-style comment token, the algorithm is confused and the injected comments cause a syntax error. If you prefer not to alter your source file, [http://code.google.com/p/minify/issues/detail?id=55#c7 issue 55] has a few simple workarounds until this is patched.
 
 == Minification can cause a Javascript error ==
 
@@ -14,3 +14,7 @@ return /'/;   // JSMin throws error
 return (/'/); // no error
 }}}
 [http://code.google.com/p/minify/source/browse/trunk/min/lib/MyMin.php Andrea Giammarchi's extension of JSMin] resolves this issue, and we're working to merge that fix into our JSMin.
+
+== Incorrect DOCUMENT_ROOT settings ==
+
+If `$_SERVER['DOCUMENT_ROOT']` is invalid, e.g. contains a trailing slash "/", or points to a path that doesn't exist, Minify will not work correctly. If you cannot fix this in httpd.conf, etc., [http://code.google.com/p/minify/issues/detail?id=68#c6 Issue 68] has a simple workaround that may appear in a future Minify release.
