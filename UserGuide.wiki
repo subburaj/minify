@@ -11,9 +11,9 @@ Done!
 
 (Optional) See TestingMinify if you'd like to run unit tests.
 
-== Upgrading Minify from 2.1.0 to 2.1.1 ==
+== Upgrading Minify from 2.1.x ==
 
-See the [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/UPGRADING.txt Upgrade Guide]
+See the [http://code.google.com/p/minify/source/browse/tags/release_2.1.2/UPGRADING.txt Upgrade Guide]
 
 = Usage =
 
