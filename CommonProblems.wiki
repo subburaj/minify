@@ -27,7 +27,7 @@ This issue was resolved in version 2.1.2.
 
 In rare instances the [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/JSMin.php#14 JSMin] algorithm in versions <= 2.1.1 could be confused by regexes in certain contexts and throw an exception. The workaround was to simply wrap the expression in parenthesis. E.g.
 {{{
-return /'/;   // JSMin in 2.1.1 throws error
-
+// in 2.1.1 and previous
+return /'/;   // JSMin throws error
 return (/'/); // no error
 }}}
