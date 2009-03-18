@@ -5,9 +5,11 @@
 
 If you combine CSS files, @import declarations can appear after CSS rules, invalidating the stylesheet. As of version 2.1.2, if Minify detects this, it will prepend a warning to the output CSS file. To resolve this, you can either move your @import statements within your files, or enable the option 'bubbleCssImports'.
 
-== An incorrect DOCUMENT_ROOT can cause problems ==
+== URIs are re-written incorrectly in CSS output ==
 
-If `$_SERVER['DOCUMENT_ROOT']` is invalid, e.g. contains a trailing slash "/", or points to a path that doesn't exist, Minify may not work correctly. If you cannot fix this in httpd.conf, etc., version 2.1.2 added a configuration option to specify the document root.
+  * As these settings are complex, *please troubleshoot problems on the [http://groups.google.com/group/minify minify mailing list] before filing an issue.* Please include the following when posting or creating an issue: The complete file paths of your DOCUMENT_ROOT and CSS source file, your `$min_symlink` setting (if used), and the original and output URIs.  
+  * Check that DOCUMENT_ROOT is a real directory path. If `$_SERVER['DOCUMENT_ROOT']` is invalid, e.g. contains a trailing slash "/", or points to a path that doesn't exist, URI rewriting may fail. If you cannot fix this in httpd.conf, etc., use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#47 configuration option].
+  * If your CSS source file is in a symlink-ed directory (e.g. not within DOCUMENT_ROOT), you will have to use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#114 $min_symlinks] option.
 
 == Debug mode can cause a Javascript error ==
 
