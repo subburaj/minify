@@ -14,6 +14,7 @@ If you combine CSS files, @import declarations can appear after CSS rules, inval
     # the original and output URIs
   * Check that DOCUMENT_ROOT is a real directory path. If `$_SERVER['DOCUMENT_ROOT']` is invalid, e.g. contains a trailing slash "/", or points to a path that doesn't exist, URI rewriting may fail. If you cannot fix this in httpd.conf, etc., use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#47 configuration option].
   * If your CSS source file is in a symlink-ed directory (e.g. not within DOCUMENT_ROOT), you will have to use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#114 $min_symlinks] option.
+  * If you have 2.1.2, updating [http://code.google.com/p/minify/source/detail?r=309 these modified files] will add URI-rewriting process info to debug mode.
 
 == Debug mode can cause a Javascript error ==
 
