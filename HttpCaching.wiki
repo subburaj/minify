@@ -29,7 +29,7 @@ In this example we implement conditional GET for a mostly-static PHP script. The
 // top of file
 $cg = new HTTP_ConditionalGet(array(
   'isPublic' => true,
-  'lastUpdateTime' => filemtime(__FILE__)
+  'lastModifiedTime' => filemtime(__FILE__)
 ));
 $cg->sendHeaders();
 if ($cg->cacheIsValid) { // 304 already sent
@@ -39,6 +39,12 @@ if ($cg->cacheIsValid) { // 304 already sent
 }}}
 
 For the first request the browser's cache won't be valid, so the full script will execute, sending the full content. On the next, the cache will be valid and the sendHeaders() method will have already set the 304 header, so the script can be halted.
+
+There's also a shortcut static method for this:
+{{{
+HTTP_ConditionalGet::check(filemtime(__FILE__), true); // exits if client has cache
+// rest of script
+}}}
 
 == When last modification time isn't known ==
 
