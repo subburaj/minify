@@ -10,6 +10,15 @@ Minify currently uses JSMin to remove whitespace from Javascript. Although [http
   * In a custom group, you can specify a file to have [http://code.google.com/p/minify/wiki/UserGuide#Custom_functions_for_files no minifier] (HTTP compression will still be used).
   * If you have Java on your web host, you can use the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/YUICompressor.php wrapper for YUI Compressor] instead of JSMin. Ask the mailing list for instructions.
 
+=== Scriptaculous ===
+
+Scriptaculous 1.8.2 (and probably all 1.x) has an [http://github.com/madrobby/scriptaculous/blob/4b49fd8884920d4ee760b0194431f4f433f878df/src/scriptaculous.js#L54 autoloader] that requires a particular HTML and file layout. To serve its files with Minify, just leave out `scriptaculous.js` (it's just for loading). Serve `prototype.js` and the individual support files (e.g. `dragdrop.js`, `effects.js`) and the library should work fine. E.g.:
+
+{{{
+<script src="/min/f=scriptaculous/lib/prototype.js" type="text/javascript"></script>
+<script src="/min/b=scriptaculous/src&amp;f=effects.js,dragdrop.js" type="text/javascript"></script>
+}}}
+
 == @imports can appear in invalid locations in combined CSS files ==
 
 If you combine CSS files, @import declarations can appear after CSS rules, invalidating the stylesheet. As of version 2.1.2, if Minify detects this, it will prepend a warning to the output CSS file. To resolve this, you can either move your @import statements within your files, or enable the option 'bubbleCssImports'.
