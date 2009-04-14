@@ -1,0 +1,18 @@
+#summary Security overview of URIs with "f="
+#labels Phase-Design
+
+This was quickly converted from an e-mail, please consider it "temporary".
+
+== Each file specified by `$_GET['f']` must: ==
+
+  * Have the [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/Minify/Controller/MinApp.php#66 same extension, either "css" or "js"],
+  * Exist, and...
+  * Have a [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/Minify/Controller/Base.php#122 realpath() within a whitelist of subdirectories].
+
+The default whitelist contains only DOCUMENT_ROOT, but can be [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/config.php#57 specified].
+
+Then, a few more steps just to be paranoid:
+
+  * If a base was given by `$_GET['b']`, [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/Minify/Controller/MinApp.php#84 it can't have ".."].
+  * `$_GET['f']` [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/Minify/Controller/MinApp.php#64 must not contain "//", "\", or "./"].
+  * There can [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/lib/Minify/Controller/MinApp.php#77 no duplicates] and only a [http://code.google.com/p/minify/source/browse/tags/release_2.1.1/min/config.php#73 limited number of files] can be specified.
