@@ -19,6 +19,16 @@ Scriptaculous 1.8.2 (and probably all 1.x) has an [http://github.com/madrobby/sc
 <script src="/min/b=scriptaculous/src&amp;f=effects.js,dragdrop.js" type="text/javascript"></script>
 }}}
 
+== Character Encodings ==
+
+_Please_ use UTF-8. The string processing may work on encodings like Windows-1251 but will certainly fail on radically different ones like UTF-16.
+
+If you consistently use a different encoding, in `config.php` set `$min_serveOptions['contentTypeCharset']` to this encoding to send it in the Content-Type header.
+
+Otherwise, set it to `false` to remove it altogether. You can still, in CSS, use the [http://www.w3.org/TR/CSS2/syndata.html#x50 @charset] directive to tell the browser the encoding, but (a) it must appear first and (b) shouldn't appear later in the output (and Minify won't enforce this).
+
+Moral? Use UTF-8.
+
 == @imports can appear in invalid locations in combined CSS files ==
 
 If you combine CSS files, @import declarations can appear after CSS rules, invalidating the stylesheet. As of version 2.1.2, if Minify detects this, it will prepend a warning to the output CSS file. To resolve this, you can either move your @import statements within your files, or enable the option 'bubbleCssImports'.
