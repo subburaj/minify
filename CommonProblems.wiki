@@ -37,14 +37,14 @@ If you combine CSS files, @import declarations can appear after CSS rules, inval
 
 == URIs are re-written incorrectly in CSS output ==
 
-  * As these settings are complex, *please troubleshoot problems on the [http://groups.google.com/group/minify minify mailing list] before filing an issue.* Please include the following when posting or creating an issue: 
+  * Make sure you have the [http://code.google.com/p/minify/downloads/list latest version] and enable debug mode. The CSS output will contain comments outlining the URI transformations.
+  * *Please troubleshoot problems on the [http://groups.google.com/group/minify minify mailing list] before filing an issue.* Please include the following when posting or creating an issue: 
     # complete file path of the DOCUMENT_ROOT
     # complete file path of the CSS source file
     # the `$min_symlink` setting (if used)
     # the original and output URIs
-  * Check that DOCUMENT_ROOT is a real directory path. If `$_SERVER['DOCUMENT_ROOT']` is invalid, e.g. contains a trailing slash "/", or points to a path that doesn't exist, URI rewriting may fail. If you cannot fix this in httpd.conf, etc., use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#47 configuration option].
+  * Check that DOCUMENT_ROOT is a real directory path. If `$_SERVER['DOCUMENT_ROOT']` points to a path that doesn't exist, URI rewriting may fail. If you cannot fix this in httpd.conf, etc., use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#47 configuration option].
   * If your CSS source file is in a symlink-ed directory (e.g. not within DOCUMENT_ROOT), you will have to use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#114 $min_symlinks] option.
-  * If you have 2.1.2, updating [http://code.google.com/p/minify/source/detail?r=309 these modified files] will add URI-rewriting process info to debug mode.
 
 == Debug mode can cause a Javascript error ==
 
