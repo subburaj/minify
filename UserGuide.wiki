@@ -27,6 +27,10 @@ The Minify URI Builder will help you create URIs you can use to minify existing 
 
 Most configuration options are located in [http://code.google.com/p/minify/source/browse/trunk/min/config.php min/config.php]. To set up groups of files to minify, this can specified in [http://code.google.com/p/minify/source/browse/trunk/min/groupsConfig.php min/groupsConfig.php] (The builder application will help with this).
 
+= Problems? =
+
+See CommonProblems and [Debugging]
+
 = Customized Sources / Options for Specific Files =
 
 In [http://code.google.com/p/minify/source/browse/trunk/min/groupsConfig.php groupsConfig.php], you may use a [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/Source.php Minify_Source] object in place of a file path. This will allow you to set the exact function used to process the source, specify an option to be sent to the processing function, or even create a source that's not based on a static file. Here are a few examples:
