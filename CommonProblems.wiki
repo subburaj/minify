@@ -8,7 +8,7 @@ If this page doesn't help, please post a question on our [http://groups.google.c
 Minify currently uses JSMin to remove whitespace from Javascript. Although [http://code.google.com/p/minify/source/browse/trunk/min/lib/JSMin.php Minify's JSMin] has been patched beyond Douglas Crockford's [http://www.crockford.com/javascript/jsmin.html original], errors can still be introduced, e.g. in scripts that rely on [http://www.robertnyman.com/2008/10/16/beware-of-javascript-semicolon-insertion/ semicolon insertion] or other unusual syntax. To avoid problems, in general:
 
   * When available, use pre-compressed versions of Javascript libraries (generally JSMin will not break code output by the more advanced Rhino-based compressors like [http://developer.yahoo.com/yui/compressor/ YUI Compressor]), or use a [http://code.google.com/apis/ajaxlibs/ Google-hosted version] and reserve Minify for serving plugins and user code.
-  * Try [http://code.google.com/p/minify/source/browse/trunk/min/README.txt?r=292#120 debug mode] to check your files for errors. Debug mode _can_ introduce its own errors, but is generally reliable. The comment at the beginning of the line of the error will tell you the line number in the original source file.
+  * Try [Debugging debug mode] to check your files for errors. Debug mode _can_ introduce its own errors, but is generally reliable. The comment at the beginning of the line of the error will tell you the line number in the original source file.
   * In a custom group, you can specify a file to have [http://code.google.com/p/minify/wiki/UserGuide#Custom_functions_for_files no minifier] (HTTP compression will still be used).
   * If you have Java on your web host, you can use the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/YUICompressor.php wrapper for YUI Compressor] instead of JSMin. Ask the mailing list for instructions.
 
@@ -37,7 +37,7 @@ If you combine CSS files, @import declarations can appear after CSS rules, inval
 
 == URIs are re-written incorrectly in CSS output ==
 
-  * Make sure you have the [http://code.google.com/p/minify/downloads/list latest version] and enable debug mode. The CSS output will contain comments outlining the URI transformations.
+  * Make sure you have the [http://code.google.com/p/minify/downloads/list latest version] and enable [Debugging debug mode]. The CSS output will contain comments outlining the URI transformations.
   * *Please troubleshoot problems on the [http://groups.google.com/group/minify minify mailing list] before filing an issue.* Please include the following when posting or creating an issue: 
     # complete file path of the DOCUMENT_ROOT
     # complete file path of the CSS source file
@@ -62,3 +62,7 @@ In rare instances the [http://code.google.com/p/minify/source/browse/tags/releas
 return /'/;   // JSMin throws error
 return (/'/); // no error
 }}}
+
+== See Also ==
+
+ * [Debugging]
