@@ -1,0 +1,63 @@
+#summary Debugging problems
+#labels Phase-Implementation
+
+= Javascript/CSS Problems =
+
+When Javascript errors occur, or URIs in CSS files are incorrectly rewritten, enable "debug mode" to ease debugging combined files:
+
+ # Set `$min_allowDebugFlag = 'true'` in min/config.php
+ # Append `&debug` to the Minify URI. E.g. `/min/?f=script1.js,script2.js&debug`
+
+Comments will be inserted into the output showing you the line number of the original file(s). E.g.: 
+
+{{{
+/* waitFor.jquery.js */
+
+/* 1  */ (function () {
+/* 2  */ 	if (window._waitFor$) {
+...
+/* 10 */ 	}
+/* 11 */ })();
+
+;
+/* QueryString.js */
+
+/* 1   */ var MrClay = window.MrClay || {};
+/* 2   */ 
+...
+}}}
+
+CSS output will be appended with a comment showing how any relative URIs were rewritten. E.g.:
+
+{{{
+docRoot    : M:\home\foo\www
+currentDir : M:\home\foo\www\css
+
+file-relative URI  : typography.css
+path prepended     : M:\home\foo\www\css\typography.css
+docroot stripped   : \css\typography.css
+traversals removed : /css/typography.css
+
+file-relative URI  : ../images/bg.jpg
+path prepended     : M:\home\foo\www\css\..\images\bg.jpg
+docroot stripped   : \css\..\images\bg.jpg
+traversals removed : /images/bg.jpg
+}}}
+
+= 400 Bad Request errors =
+
+If Minify can't serve a file for some reason, you'll get a `400 Bad Request` error.
+
+ # Set `$min_errorLogger = true;` in min/config.php
+ # Install and enable [https://addons.mozilla.org/en-US/firefox/addon/6149 FirePHP].
+ # Reload the URL in Firefox and open Firebug's console
+
+Hopefully you'll see the error appear (misspelled "jquery"):
+
+{{{
+Minify: Path "M:/home/foo/www/js/jqueryy.js" failed realpath()
+}}}
+
+== See Also ==
+
+ * CommonProblems
