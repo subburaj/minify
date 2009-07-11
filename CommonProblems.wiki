@@ -27,7 +27,7 @@ If you upload files using [http://groups.google.com/group/coda-users/browse_thre
 
 Setting the [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/config.php#129 $min_uploaderHoursBehind option] in `config.php` can compensate for this.
 
-WinSCP has [http://winscp.net/eng/docs/ui_login_environment#daylight_saving_time Daylight Saving Time option] that can prevent this issue. 
+WinSCP has a [http://winscp.net/eng/docs/ui_login_environment#daylight_saving_time Daylight Saving Time option] that can prevent this issue. 
 
 == Character Encodings ==
 
