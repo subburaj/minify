@@ -119,7 +119,7 @@ $sources[] = new Minify_Source(array(
     ,'contentType' => Minify::TYPE_JS    
     ,'lastModified' => max(
         filemtime('/path/to/javascript.php')
-        ,filemtime('/path/to/javascript_input.css')
+        ,filemtime('/path/to/javascript_input.js')
     )
 ));
 $sources[] = '//file2.js';
