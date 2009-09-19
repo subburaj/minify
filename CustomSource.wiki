@@ -1,0 +1,52 @@
+#summary Lessor known features of Minify
+#labels Phase-Deploy
+
+== Custom Source ==
+
+In `groupsConfig.php`, usually you specify source file paths using strings like `'//js/file1.js'` (short for `$_SERVER['DOCUMENT_ROOT'].'/js/file1.js'` ).
+
+Instead of a string, you may substitute a "source object" (an instance of class [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Source.php Minify_Source]). This allows you to customize how minification is applied, and/or pull content from a non-file location (e.g. a URL). 
+
+=== Example: filepath ===
+
+In the `$spec` array, set the key `filepath` to produce a source based on a file path:
+{{{
+$src1 = new Minify_Source(array(
+    'filepath' => '//js/file1.js',
+));
+$src2 = new Minify_Source(array(
+    'filepath' => '//js/file2.js',
+));
+
+return array(
+    'js' => array($src1, $src2)
+);
+}}}
+Note the above is functionally identical to:
+{{{
+return array(
+    'js' => array('//js/file1.js', '//js/file2.js')
+);
+}}}
+
+=== Example: Specify a different minifier or none at all ===
+
+To change minifier, set `minifier` to a [http://php.net/manual/en/language.pseudo-types.php callback] or the empty string (for none):
+{{{
+function myMin($js) {
+    require_once 'JSMinPlus.php';
+    return JSMinPlus::minify($js);
+}
+
+$src1 = new Minify_Source(array(
+    'filepath' => '//js/file1.js',
+    'minifier' => 'myMin'
+));
+$src2 = new Minify_Source(array(
+    'filepath' => '//js/file2.js',
+    'minifier' => '' // don't compress
+));
+}}}
+In the above, `myMin()` is only called when rebuilding the cache. This way `JSMinPlus.php` is only loaded when needed.
+
+=== Example: 
