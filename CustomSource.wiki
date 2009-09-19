@@ -95,7 +95,7 @@ $src1 = new Minify_Source(array(
 
 Be aware that all the code you put in groupsConfig.php will be evaluated upon every request like `/min/g=...`, so make it as light as possible.
 
-If you wish to keep groupsConfig.php lightweight, you can alternately create a separate PHP script that manually sets up sources, caching, options, and calls Minify::serve().
+If you wish to keep groupsConfig.php "clean", you can alternately create a separate PHP script that manually sets up sources, caching, options, and calls Minify::serve().
 {{{
 <?php // myServer.php
 /**
