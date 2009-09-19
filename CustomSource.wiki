@@ -40,13 +40,99 @@ function myMin($js) {
 
 $src1 = new Minify_Source(array(
     'filepath' => '//js/file1.js',
-    'minifier' => 'myMin'
+    'minifier' => 'myMin',
 ));
 $src2 = new Minify_Source(array(
     'filepath' => '//js/file2.js',
-    'minifier' => '' // don't compress
+    'minifier' => '', // don't compress
 ));
 }}}
 In the above, `myMin()` is only called when rebuilding the cache. This way `JSMinPlus.php` is only loaded when needed.
 
-=== Example: 
+== Non-File Sources ==
+
+You're not limited to flat js/css files, but without `filepath`, the `$spec` array must contain these keys:
+
+  * *`id `* a unique string id for this source. (e.g. `'my source'`)
+  * *`getContentFunc `* a [http://php.net/manual/en/language.pseudo-types.php callback] that returns the content. The function is only called when the cache is rebuilt.
+  * *`contentType `* `Minify::TYPE_JS` or `Minify::TYPE_CSS`
+  * *`lastModified `* a timestamp indicating when the content last changed. (If you can't determine this quickly, you can "fake" it using a step function, causing the cache to be periodically rebuilt.)
+
+=== Example: Content from a URL ===
+
+Here we want to fetch javascript from a URL. We don't know when it will change, so we use a stepping expression to re-fetch it every midnight:
+{{{
+function src1_fetch() {
+    return file_get_contents('http://example.org/javascript.php');
+}
+
+$src1 = new Minify_Source(array(
+    'id' => 'source1',
+    'getContentFunc' => 'src1_fetch',
+    'contentType' => Minify::TYPE_JS,    
+    'lastModified' => ($_SERVER['REQUEST_TIME'] - $_SERVER['REQUEST_TIME'] % 86400),
+));
+}}}
+
+If you know that the URL content only depends on a few local files, you can use the maximum of their `mtime`s as the `lastModified` key:
+{{{
+function src1_fetch() {
+    return file_get_contents('http://example.org/javascript.php');
+}
+
+$src1 = new Minify_Source(array(
+    'id' => 'source1',
+    'getContentFunc' => 'src1_fetch',
+    'contentType' => Minify::TYPE_JS,
+    'lastModified' => max(
+        filemtime('/path/to/javascript.php')
+        ,filemtime('/path/to/javascript_input.css')
+    ),
+));
+}}}
+
+== Performance Considerations ==
+
+Be aware that all the code you put in groupsConfig.php will be evaluated upon every request like `/min/g=...`, so make it as light as possible.
+
+If you wish to keep groupsConfig.php lightweight, you can alternately create a separate PHP script that manually sets up sources, caching, options, and calls Minify::serve().
+{{{
+<?php // myServer.php
+/**
+ * This script implements a Minify server for a single set of sources.
+ * If you don't want '.php' in the URL, use mod_rewrite...
+ */
+
+// setup Minify
+set_include_path('path/to/min/lib' . PATH_SEPARATOR . get_include_path());
+require 'Minify.php';
+require 'Minify/Cache/File.php';
+Minify::setCache(new Minify_Cache_File()); // guesses a temp directory
+
+function src1_fetch() {
+    return file_get_contents('http://example.org/javascript.php');
+}
+
+// setup sources
+$sources = array();
+$sources[] = new Minify_Source(array(
+    'id' => 'source1'
+    ,'getContentFunc' => 'src1_fetch'
+    ,'contentType' => Minify::TYPE_JS    
+    ,'lastModified' => max(
+        filemtime('/path/to/javascript.php')
+        ,filemtime('/path/to/javascript_input.css')
+    )
+));
+$sources[] = '//file2.js';
+$sources[] = '//file3.js';
+
+// setup serve options
+$options = array(
+    'files' => $sources,
+    'maxAge' => 86400,
+);
+
+// handle request
+Minify::serve('Files', $options);
+}}}
