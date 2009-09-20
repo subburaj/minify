@@ -1,4 +1,4 @@
-#summary Lessor known features of Minify
+#summary Using Minify_Source objects for more flexibility
 #labels Phase-Deploy
 
 In `groupsConfig.php`, usually you specify source file paths using strings like `/path/to/file.js` or `//js/file1.js` (shorthand for `$_SERVER['DOCUMENT_ROOT'].'/js/file1.js'` ).
