@@ -31,7 +31,7 @@ Minify::setCache(new Minify_Cache_File()); // files in directory chosen by Solar
 
 Minify uses controller classes to validate requests and choose which sources are to be served.
 
-The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Files.php#9 Files] controller ignores all details about HTTP requests. It just serves an array of sources (file paths or CustomSources).
+The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Files.php#9 Files] controller ignores all details about HTTP requests. It just serves an array of sources (file paths or [CustomSource source objects]).
 
 The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Groups.php Groups] controller takes an associative array (say `$groups`) of source arrays, and chooses the array to serve based on `$_SERVER['PATH_INFO']`. E.g. if you request `http://example.org/myServer.php/keyName`, the controller will serve the sources in `$groups['keyName']`.
 
@@ -53,7 +53,7 @@ $options = array(
     'maxAge' => 86400
 );
 }}}
-(In the above $src is a [CustomSources custom Minify_Source object].)
+(In the above $src is a [CustomSource Minify_Source object], which allows you to serve non-file content, and/or apply settings to individual sources.)
 
 == Handle the request ==
 
