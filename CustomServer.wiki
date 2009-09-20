@@ -3,7 +3,7 @@
 
 Please see the UserGuide if you're just getting started with Minify. This guide is for more advanced users who wish to implement an HTTP server in PHP using the [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify.php Minify] class.
 
-One example is default application (sometimes referred to as "min") implemented in the file [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/index.php min/index.php]. The basic steps are:
+The basic steps are:
 
   # Set up the include_path
   # Set up caching
@@ -33,7 +33,7 @@ Minify uses controller classes to validate requests and choose which sources are
 
 The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Files.php#9 Files] controller ignores all details about HTTP requests. It just serves an array of sources (file paths or [CustomSource source objects]).
 
-The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Groups.php Groups] controller takes an associative array (say `$groups`) of source arrays, and chooses the array to serve based on `$_SERVER['PATH_INFO']`. E.g. if you request `http://example.org/myServer.php/keyName`, the controller will serve the sources in `$groups['keyName']`.
+The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Groups.php Groups] controller takes an associative array of source arrays, and chooses the array to serve based on `$_SERVER['PATH_INFO']`. There's an example at the end of this page.
 
 Files is simple. We'll use it here.
 
@@ -63,6 +63,8 @@ Minify::serve('Files', $options);
 
 That's it...
 
+Minify's default application (sometimes referred to as "min") is implemented this way, in the file [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/index.php min/index.php]. Most of its request handling is encapsulated in its own [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/MinApp.php#15 MinApp] controller.
+
 = The Request Cycle =
 
 `Minify::serve` does a number of operations. It...
@@ -79,8 +81,7 @@ That's it...
   # sets up headers to be sent
   # either returns the headers and content in an array (if `quiet` is set), or sends it to the browser.
 
-
-== Using the Groups controller ==
+= Using the Groups controller =
 
 {{{
 $options = array(
