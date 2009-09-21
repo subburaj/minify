@@ -29,7 +29,7 @@ return array(
 
 === Example: Specify a different minifier or none at all ===
 
-To change minifier, set `minifier` to a [http://php.net/manual/en/language.pseudo-types.php callback] or the empty string (for none):
+To change minifier, set `minifier` to a [http://php.net/manual/en/language.pseudo-types.php callback]`*` or the empty string (for none):
 {{{
 function myMin($js) {
     require_once 'JSMinPlus.php';
@@ -46,6 +46,8 @@ $src2 = new Minify_Source(array(
 ));
 }}}
 In the above, `myMin()` is only called when rebuilding the cache. This way `JSMinPlus.php` is only loaded when needed.
+
+*`*`Do _not_ use [http://php.net/manual/en/function.create-function.php create_function] or anonymous functions for the minifier.* The internal names of these function tend to vary, causing Minify to create lots of [http://code.google.com/p/minify/issues/detail?id=138 duplicate cache files] (and perform poorly).
 
 == Non-File Sources ==
 
