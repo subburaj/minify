@@ -70,7 +70,7 @@ Minify's default application (sometimes referred to as "min") is implemented thi
 In handling a request, `Minify::serve` does a number of operations:
 
   # creates a controller object, unless you pass it a readymade object (let's call this `$ctrl`).
-  # calls `$ctrl->setupSources($options)`, which analyzes the request and sets `$ctrl->sources` accordingly to an array of Minify_Source objects.
+  # calls `$ctrl->setupSources($options)`, which analyzes the request and sets `$ctrl->sources` accordingly to an array of !Minify_Source objects.
   # calls `$ctrl->analyzeSources($options)`, which set `$options` keys for `contentType` and `lastModifiedTime`, based on the sources.
   # calls `$ctrl->mixInDefaultOptions($options)`, to mix the controller's default options with the user's.
   # determines if the browser accepts gzip
