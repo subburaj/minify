@@ -29,21 +29,21 @@ Minify::setCache(new Minify_Cache_File()); // files in directory chosen by Solar
 
 == Choose a Minify controller ==
 
-Minify uses controller classes to validate requests and choose which sources are to be served.
+Minify uses controller classes to analyze HTTP requests and determine which sources will make up the response. (The content isn't always returned; if the browser's cache is valid, Minify can return a 304 header instead).
 
-The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Files.php#9 Files] controller ignores all details about HTTP requests. It just serves an array of sources (file paths or [CustomSource source objects]).
+The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Files.php#9 Files] controller doesn't care about the HTTP request. It just specifies a given array of sources (file paths or [CustomSource source objects]).
 
-The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Groups.php Groups] controller takes an associative array of source arrays, and chooses the array to serve based on `$_SERVER['PATH_INFO']`. There's an example at the end of this page.
+The [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Controller/Groups.php Groups] controller uses `$_SERVER['PATH_INFO']` to choose from an array of source lists. There's an example at the end of this page.
 
-Files is simple. We'll use it here.
+The Files controller is simple, so we'll use it here.
 
 == Set up service and controller options ==
 
 A single array is used for configuration, and is passed to the `Minify::serve` method. `serve` passes it to the controller, which picks off the keys it needs and returns it to `serve` for Minify's own built-in [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify.php#88 options]. This architecture allows the controller to set defaults for `serve`.
 
-The Files controller only needs one key: `files`, an array of file paths or CustomSources to be served on every request.
+The Files controller only needs one key: `files`: the array of sources to be combined and served.
 
-The only `serve` key we care about is `maxAge`, since the default is only 1800 seconds.
+The only `serve` option we'll set is `maxAge` (the default is a measly 1800 seconds).
 
 {{{
 $options = array(
@@ -67,17 +67,17 @@ Minify's default application (sometimes referred to as "min") is implemented thi
 
 = The Request Cycle =
 
-`Minify::serve` does a number of operations. It...
+In handling a request, `Minify::serve` does a number of operations:
 
-  # creates a controller object `$ctrl` (unless you pass it a readymade object).
+  # creates a controller object, unless you pass it a readymade object (let's call this `$ctrl`).
   # calls `$ctrl->setupSources($options)`, which analyzes the request and sets `$ctrl->sources` accordingly to an array of Minify_Source objects.
   # calls `$ctrl->analyzeSources($options)`, which set `$options` keys for `contentType` and `lastModifiedTime`, based on the sources.
-  # calls `$ctrl->mixInDefaultOptions($options)`, which mixes in the controller's default options.
-  # determines if the browser accepts gzip using `HTTP_Encoder`
-  # allows conditional GETs (optionally abandoning the request) using `HTTP_ConditionalGet`
+  # calls `$ctrl->mixInDefaultOptions($options)`, to mix the controller's default options with the user's.
+  # determines if the browser accepts gzip
+  # validates the browser cache (optionally responding with a 304)
   # validates the server cache. If it needs refreshing, `Minify::_combineMinify` is called, which...
-     # calls `$source->getContent` on each source
-     # the content is combined before or after minification (depending on individual source options)
+     * calls `$source->getContent` on each source
+     * the content is combined before or after minification (depending on individual source options)
   # sets up headers to be sent
   # either returns the headers and content in an array (if `quiet` is set), or sends it to the browser.
 
@@ -93,7 +93,7 @@ $options = array(
 Minify::serve('Groups', $options);
 }}}
 
-With the above, if you request `http://example.org/myServer.php/css`, the two CSS files will be served.
+With the above, if you request `http://example.org/myServer.php/css`, Apache will set `$_SERVER['PATH_INFO'] = '/css'` and the sources in `$options['groups']['css']` will be served.
 
 <wiki:comment>Move somewhere else
 
