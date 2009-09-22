@@ -25,11 +25,13 @@ The Minify URI Builder will help you create URIs you can use to minify existing 
 
 = Configuration =
 
-Most configuration options are located in [http://code.google.com/p/minify/source/browse/trunk/min/config.php min/config.php]. To set up groups of files to minify, this can specified in [http://code.google.com/p/minify/source/browse/trunk/min/groupsConfig.php min/groupsConfig.php] (The builder application will help with this).
+[http://code.google.com/p/minify/source/browse/trunk/min/config.php min/config.php] holds general config options.
 
-For more flexibility, see CustomSource.
+[http://code.google.com/p/minify/source/browse/trunk/min/groupsConfig.php min/groupsConfig.php] holds preset groups of files to minify. (The builder application can help with this).
 
-To serve minified content from any PHP script, see CustomServer.
+CookBook shows how to customize settings between production/development environments, and between groups.
+
+CustomSource shows how to set some file/source-specific options, or serve content from a PHP script or URL.
 
 = Problems? =
 
