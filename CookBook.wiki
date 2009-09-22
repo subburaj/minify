@@ -1,0 +1,44 @@
+#summary Solutions for more complex Minify configurations
+#labels Phase-Deploy
+
+== Server-specific Options ==
+
+You may need to have different options depending on what server you're on. You can do this just how you'd expect in `config.php`:
+
+{{{
+if ($_SERVER['SERVER_NAME'] == 'myTestingWorkstation') {
+    // testing
+    $min_allowDebugFlag = true;
+    $min_errorLogger    = true;
+    $min_enableBuilder  = true;
+    $min_cachePath      = 'c:\\WINDOWS\\Temp';
+    $min_serveOptions['maxAge'] = 0; // see changes immediately
+} else {
+    // production
+    $min_allowDebugFlag = false;
+    $min_errorLogger    = false;
+    $min_enableBuilder  = false;
+    $min_cachePath      = '/tmp';
+    $min_serveOptions['maxAge'] = 86400;
+}
+}}}
+
+== Group-specific Options ==
+
+In "group" requests, `$_GET['g']` holds the group key, so you can code based on it:
+
+In `config.php`:
+{{{
+if (isset($_GET['g'])) {
+    switch ($_GET['g']) {
+    case 'js' : $min_serveOptions['maxAge'] = 86400 * 7;
+                break;
+    case 'css': $min_serveOptions['contentTypeCharset'] = 'iso-8859-1';
+                break;
+    }
+}
+}}}
+
+== File/Source-specific Options ==
+
+See CustomSource.
