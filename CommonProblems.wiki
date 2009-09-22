@@ -3,6 +3,21 @@
 
 If this page doesn't help, please post a question on our [http://groups.google.com/group/minify Google group].
 
+== Builder Fails / 400 Errors ==
+
+With URLs like `/min/f=...`, Minify is paranoid about not serving files outside of `$_SERVER['DOCUMENT_ROOT']`. If you're trying to serve files that are actually symlinks (or in a symlinked folder) to files outside of the DOC_ROOT, Minify won't allow it by default.
+
+=== Example ===
+
+Your DOC_ROOT is `/var/www`, but `/var/www/css` is actually a symlink to `/var/shared/css`. To serve `/min/f=css/site.css`, we must explicitly add the symlink target folder to the `allowDirs` option:
+{{{
+$min_serveOptions['allowDirs'] = array(
+    '//', // DOC_ROOT
+    '/var/shared/css'
+);
+}}}
+Now Minify can serve files whose `realpath()` is in `/var/shared/css`.
+
 == Dealing with Javascript errors ==
 
 Minify currently uses JSMin to remove whitespace from Javascript. Although [http://code.google.com/p/minify/source/browse/trunk/min/lib/JSMin.php Minify's JSMin] has been patched beyond Douglas Crockford's [http://www.crockford.com/javascript/jsmin.html original], errors can still be introduced, e.g. in scripts that rely on [http://www.robertnyman.com/2008/10/16/beware-of-javascript-semicolon-insertion/ semicolon insertion] or other unusual syntax. To avoid problems, in general:
