@@ -25,9 +25,7 @@ if ($_SERVER['SERVER_NAME'] == 'myTestingWorkstation') {
 
 == Group-specific Options ==
 
-In "group" requests, `$_GET['g']` holds the group key, so you can code based on it:
-
-In `config.php`:
+In "group" requests, `$_GET['g']` holds the group key, so you can code based on it in `config.php`:
 {{{
 if (isset($_GET['g'])) {
     switch ($_GET['g']) {
