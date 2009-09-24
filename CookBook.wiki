@@ -1,5 +1,5 @@
 #summary Solutions for more complex Minify configurations
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 
 Unless mentioned, all the following snippets go in `min/config.php`.
 
