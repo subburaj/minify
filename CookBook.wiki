@@ -1,10 +1,32 @@
 #summary Solutions for more complex Minify configurations
 #labels Phase-Deploy
 
+Unless mentioned, all the following snippets go in `min/config.php`.
+
+== Faster Cache Performance ==
+
+By default, Minify uses [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/Minify/Cache/File.php Minify_Cache_File]. It uses `readfile`/`fpassthru` to improve performance over most file-based systems, but it's still file IO. I haven't done comparative benchmarks on all three, but APC/Memcache _should_ be faster.
+
+=== APC ===
+
+{{{
+require dirname(__FILE__) . '/lib/Minify/Cache/APC.php';
+$min_cachePath = new Minify_Cache_APC();
+}}}
+
+=== Memcache ===
+
+You must create and connect your Memcache object then pass it to `Minify_Cache_Memcache`'s constructor.
+{{{
+require dirname(__FILE__) . '/lib/Minify/Cache/Memcache.php';
+$memcache = new Memcache;
+$memcache->connect('localhost', 11211);
+$min_cachePath = new Minify_Cache_Memcache($memcache);
+}}}
+
 == Server-specific Options ==
 
-You may need to have different options depending on what server you're on. You can do this just how you'd expect in `config.php`:
-
+You may need to have different options depending on what server you're on. You can do this just how you'd expect:
 {{{
 if ($_SERVER['SERVER_NAME'] == 'myTestingWorkstation') {
     // testing
@@ -25,7 +47,7 @@ if ($_SERVER['SERVER_NAME'] == 'myTestingWorkstation') {
 
 == Group-specific Options ==
 
-In "group" requests, `$_GET['g']` holds the group key, so you can code based on it in `config.php`:
+In "group" requests, `$_GET['g']` holds the group key, so you can code based on it:
 {{{
 if (isset($_GET['g'])) {
     switch ($_GET['g']) {
