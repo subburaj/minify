@@ -5,13 +5,14 @@
 
 With Minify you will ideally serve _fewer_ requests, but Minify can be slower than your HTTPd serving flat files. If you have a high-traffic site with hundreds of simultaneous requests from new users, you should probably:
 
-  * Place your HTTPd behind a [http://www.squid-cache.org/Intro/why.dyn reverse proxy], which can cache Minify URLs and serve them _fast_.
+  * Use the [CookBook APC/Memcache adapters].
+  * Revision your Minify URIs (so far-off Expires headers will be sent). One way to do this is using [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/README.txt#69 predefined groups] and the [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/utils.php#13 Minify_groupUri()] utility function.
+  * Place your HTTPd behind a [http://www.squid-cache.org/Intro/why.dyn reverse proxy] to cache the Minify URLs.
   * Benchmark Minify on your development server before rolling out to production.
-  * Use [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/README.txt#69 predefined groups] and the [http://code.google.com/p/minify/source/browse/tags/release_2.1.0/min/utils.php#11 Minify_groupUri()] utility function (or some other method) to revision your URIs. Minify will automatically send far-off Expires headers.
 
 === Will it get faster? ===
 
-Ideally. For Apache users we're designing a feature to enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and be blazingly fast. Even if you're not minifying files this will be faster than serving files with Apache's mod_deflate.
+Ideally, but a couple [ProjectGoals other goals] come first. For Apache users we're designing a feature to enable [http://mrclay.org/index.php/2008/05/25/apache-http-encoding-negotiation-notes/ minified and pre-encoded files to be served directly from the HTTPd]. Requests will not execute PHP at all and be blazingly fast (for varying definitions of "blazingly").
 
 == How does it compare with other services? ==
 
@@ -23,7 +24,7 @@ Yes. Based on the browser's Accept-Encoding header, Minify will serve content en
 
 == Does it work with PHP opcode caches like APC and eAccelerator? ==
 
-Yes!
+Of course, and you can also use [CookBook APC for content caching].
 
 == Is there a minifier for HTML? ==
 
@@ -33,15 +34,13 @@ Minify is not suited for _serving_ HTML pages on a site, though it can be done f
 
 == How does it ensure that the client can't request files it shouldn't have access to? ==
 
-In 2.1, by default, Minify allows files to be specified using the URI, or using pre-configured sets of files.
-
-With URI-specified files, Minify serves only ".css" and ".js" files, and only from a configurable set of allowable directories within the DOCUMENT_ROOT. It cannot know if you've configured your web server to protect an otherwise public directory (e.g. with .htaccess); a sneaky user can request .js/.css files from this directory if he/she guesses the path!
+In 2.1, by default, Minify allows files to be specified using the URI, or using pre-configured sets of files. With URI-specified files, Minify is [Security very careful] to serve only JS/CSS files that are already public on your server, but if you hide public directories--with .htaccess, e.g.--Minify can't know that. Obvious Tip: don't put sensitive info in JS/CSS files inside DOC_ROOT :)
 
 An included option can disable URI-specified files so Minify will serve only the pre-configured file sets.
 
 == Is it used in production by any large-scale websites? ==
 
-It appears http://lifehacker.com/ and other [http://gawker.com/ Gawker]-related sites use Minify 1.x, but I can't say for certain. There are probably a lot of smaller sites using it. E.g. http://mrclay.org/ and http://www.miamianimalremoval.com/
+I'd love to know. 2.1.1 had 54K downloads and I know the library is powering several [http://mrclay.org/index.php/2009/01/10/minify-getting-out-there/ plugins] these days, at least 3 for !WordPress.
 
 == Can I use it with my commercial website or product? ==
 
