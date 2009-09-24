@@ -34,6 +34,19 @@ This should yield smaller javascript files, but I've tested this only briefly. F
 
 Note: JSMin+ has no [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/lib/JSMin.php#10 comment preservation] as of 1.3, in case you rely on this.
 
+== Best Javascript Compression ==
+
+If your host can execute Java, you can use Minify's YUI Compressor wrapper. You'll need the latest [http://yuilibrary.com/downloads/#yuicompressor yuicompressor-x.x.x.jar] and a temp directory. Place the .jar in `min/lib`, then:
+{{{
+function yuiJs($js) {
+    require_once 'Minify/YUICompressor.php'; 
+    Minify_YUICompressor::$jarFile = dirname(__FILE__) . '/lib/yuicompressor-x.x.x.jar'; 
+    Minify_YUICompressor::$tempDir = '/tmp'; 
+    return Minify_YUICompressor::minifyJs($js); 
+}
+$min_serveOptions['minifiers']['application/x-javascript'] = 'yuiJs';
+}}}
+
 == Server-specific Options ==
 
 You may need to have different options depending on what server you're on. You can do this just how you'd expect:
