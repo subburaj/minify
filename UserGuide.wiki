@@ -23,6 +23,8 @@ Browse to http://example.com/min/
 
 The Minify URI Builder will help you create URIs you can use to minify existing files on your site. You can see screenshots and get a feel for this process from this [http://mrclay.org/index.php/2008/09/19/minify-21-on-mrclayorg/ walkthrough on mrclay.org]
 
+Browse to [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/README.txt http://example.com/min/README.txt] for more complete documentation.
+
 = Configuration =
 
 [http://code.google.com/p/minify/source/browse/trunk/min/config.php min/config.php] holds general config options.
