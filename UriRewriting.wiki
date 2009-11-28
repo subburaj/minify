@@ -1,4 +1,4 @@
-#summary Helping Minify to correctly re-write URIs in CSS
+#summary Helping Minify to correctly rewrite URIs in CSS
 #labels Phase-Deploy
 
 Minify uses an algorithm to rewrite relative URIs in CSS output to root-relative URIs so that each link points to the same location it did in its original file.
