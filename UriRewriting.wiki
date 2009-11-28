@@ -1,0 +1,32 @@
+#summary Helping Minify to correctly re-write URIs in CSS
+#labels Phase-Deploy
+
+Minify uses an algorithm to rewrite relative URIs in CSS output to root-relative URIs so that each link points to the same location it did in its original file.
+
+Say your style sheet `http://example.org/theme/fashion/style.css` contains:
+{{{
+body { background: url(bg.jpg); }
+}}}
+
+When Minify serves this content (from `http://example.org/min/f=theme/fashion/style.css` or `http://example.org/min/g=css`) it re-writes the URI so the image is correctly linked:
+{{{
+body{background:url(/theme/fashion/bg.jpg)}
+}}}
+
+You can see the steps used to rewrite your URIs by enabling [Debugging debug mode].
+
+== Symlinks / Virtual Directories ==
+
+If you make content outside of the DOC_ROOT available at URLs in the same domain (e.g. via symlinks or virtual directories), Minify will need manual configuration to rewrite some URIs correctly. Consider this config, where `http://example.org/static/style.css` will serve  `/etc/static_content/style.css`:
+|| document root || `/var/www` ||
+|| symlink file || `/var/www/static` ||
+|| symlink target || `/etc/static_content` ||
+
+In `/min/config.php` you'll need the following:
+{{{
+$min_symlinks = array(
+//  public URI => directory outside DOC_ROOT
+    '//static' => '/etc/static_content'
+);
+}}}
+This lets Minify know, during the rewrite algorithm, that an internal path like `/etc/static_content/img.jpg` should be converted to the public URI `/static/img.jpg`
