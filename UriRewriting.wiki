@@ -15,18 +15,18 @@ body{background:url(/theme/fashion/bg.jpg)}
 
 You can see the steps used to rewrite your URIs by enabling [Debugging debug mode].
 
-== Symlinks / Virtual Directories ==
+== Aliases / Symlinks / Virtual Directories ==
 
-If you make content outside of the DOC_ROOT available at URLs in the same domain (e.g. via symlinks or virtual directories), Minify will need manual configuration to rewrite some URIs correctly. Consider this config, where `http://example.org/static/style.css` will serve  `/etc/static_content/style.css`:
+Whether you use [http://httpd.apache.org/docs/2.2/mod/mod_alias.html aliases], [http://en.wikipedia.org/wiki/Symbolic_link symlinks], or [http://msdn.microsoft.com/en-us/library/zwk103ab.aspx virtual directories], if you make content outside of the DOC_ROOT available at public URLs, Minify may need manual configuration of the `$min_symlinks` option to rewrite some URIs correctly. Consider this scenario, where `http://example.org/static/style.css` will serve `/etc/static_content/style.css`:
 || document root || `/var/www` ||
-|| symlink file || `/var/www/static` ||
-|| symlink target || `/etc/static_content` ||
+|| Apache mod_alias || `Alias /static /etc/static_content` ||
+|| ...or symlink || `ln -s /etc/static_content /var/www/static` ||
 
 In `/min/config.php` you'll need the following:
 {{{
 $min_symlinks = array(
-//  public URI => directory outside DOC_ROOT
+//  URL path   => file path
     '//static' => '/etc/static_content'
 );
 }}}
-This lets Minify know, during the rewrite algorithm, that an internal path like `/etc/static_content/img.jpg` should be converted to the public URI `/static/img.jpg`
+This lets Minify know during the rewriting process that an internal file path starting with `/etc/static_content` should be rewritten as a public URI beginning with `/static`.
