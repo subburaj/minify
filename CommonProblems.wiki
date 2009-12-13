@@ -3,6 +3,10 @@
 
 If this page doesn't help, please post a question on our [http://groups.google.com/group/minify Google group].
 
+== URIs are re-written incorrectly in CSS output ==
+
+See UriRewriting.
+
 == Files aren't cached in IE6 ==
 
 If you have 2.1.3:
@@ -69,14 +73,6 @@ Moral? Use UTF-8.
 == @imports can appear in invalid locations in combined CSS files ==
 
 If you combine CSS files, @import declarations can appear after CSS rules, invalidating the stylesheet. As of version 2.1.2, if Minify detects this, it will prepend a warning to the output CSS file. To resolve this, you can either move your @import statements within your files, or enable the option 'bubbleCssImports'.
-
-== URIs are re-written incorrectly in CSS output ==
-
-  * Enable [Debugging debug mode]. The CSS output will contain comments outlining the URI transformations.
-  * If your CSS source file is in a symlink-ed or virtual folder, see UriRewriting.
-  * Make sure you have the [http://code.google.com/p/minify/downloads/list latest version].
-  * *Please troubleshoot problems on the [http://groups.google.com/group/minify minify mailing list] before filing an issue.* Include your debug mode rewriting comments.
-  * Check that DOCUMENT_ROOT is a real directory path. If `$_SERVER['DOCUMENT_ROOT']` points to a path that doesn't exist, URI rewriting may fail. If you cannot fix this in httpd.conf, etc., use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#47 configuration option].
 
 == Debug mode can cause a Javascript error ==
 
