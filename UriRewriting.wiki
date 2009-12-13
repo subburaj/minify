@@ -30,3 +30,10 @@ $min_symlinks = array(
 );
 }}}
 This lets Minify know during the rewriting process that an internal file path starting with `/etc/static_content` should be rewritten as a public URI beginning with `/static`.
+
+== It's still not working ==
+
+  # Make sure you have the [http://code.google.com/p/minify/downloads/list latest version].
+  # Enable [Debugging debug mode], which will show you the URI transformation process.
+  # Check that `$_SERVER['DOCUMENT_ROOT']` is a real directory path. If not, URI rewriting will fail. If you cannot fix this in httpd.conf, etc., use the [http://code.google.com/p/minify/source/browse/trunk/min/config.php?r=292#47 configuration option].
+  # Paste your [Debugging debug mode] comment block into a new post on the [http://groups.google.com/group/minify minify mailing list].
