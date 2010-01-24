@@ -15,6 +15,32 @@ body{background:url(/theme/fashion/bg.jpg)}
 
 You can see the steps used to rewrite your URIs by enabling [Debugging debug mode].
 
+== Document Root Confusion ==
+
+Minify's `$min_documentRoot` should be the directory accessed by `http://example.com/`. Let's say `http://localhost/` corresponds to `C:\xampp\htdocs`. If you want to test a site by placing it in a subdirectory like `http://localhost/testSite/` that does *not* mean you can change `$min_documentRoot`. 
+
+Currently Minify requires all file paths to specified from Apache's `DocumentRoot` (not necessarily the root of your "site"). There are two ways to work around this limitation:
+
+1. Use a virtual host for your test site. This has many more advantages besides an easy Minify configuration. Tutorials: [http://apptools.com/phptools/virtualhost.php 1], [http://foundationphp.com/tutorials/apache22_vhosts.php 2], [http://www.visualwin.com/host-header/ IIS6]
+
+2. Use dynamic Minify URLs that change depending on the host you're on.
+
+{{{
+<?php
+if ($_SERVER['HTTP_HOST'] == 'localhost') {
+     $minPath = '/siteA/min/';
+     $minBase = 'b=siteA&amp;'
+} else {
+     $minPath = '/min/';
+     $minBase = '';
+}
+?>
+<link href="<?= $minPath ?><?= $minBase; ?>f=styles/site.css">
+<script src="<?= $minPath ?><?= $minBase; ?>f=scripts.js"></script> 
+}}}
+
+If this looks ugly to you, I agree with you.
+
 == Aliases / Symlinks / Virtual Directories ==
 
 Whether you use [http://httpd.apache.org/docs/2.2/mod/mod_alias.html aliases], [http://en.wikipedia.org/wiki/Symbolic_link symlinks], or [http://msdn.microsoft.com/en-us/library/zwk103ab.aspx virtual directories], if you make content outside of the DOC_ROOT available at public URLs, Minify may need manual configuration of the `$min_symlinks` option to rewrite some URIs correctly. Consider this scenario, where `http://example.org/static/style.css` will serve `/etc/static_content/style.css`:
