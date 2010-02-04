@@ -5,9 +5,8 @@ If this page doesn't help, please post a question on our [http://groups.google.c
 
 = Installing Minify for the first time =
 
-[http://code.google.com/p/minify/downloads/list Download] the latest Minify and unzip the files to a new "minify" directory.
-
-Copy the "min" folder directly into your DOCUMENT_ROOT. (See AlternateFileLayouts if you need Minify to work in a subdirectory.)
+  # [http://code.google.com/p/minify/downloads/list Download] the latest Minify and unzip the files to a new "minify" directory.
+  # Copy the "min" folder directly into your DOCUMENT_ROOT. (See AlternateFileLayouts if you need Minify to work in a subdirectory.)
 
 Done!
 
