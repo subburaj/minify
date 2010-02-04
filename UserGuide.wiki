@@ -7,7 +7,7 @@ If this page doesn't help, please post a question on our [http://groups.google.c
 
 [http://code.google.com/p/minify/downloads/list Download] the latest Minify and unzip the files to a new "minify" directory.
 
-Copy the "min" folder directly into your DOCUMENT_ROOT.
+Copy the "min" folder directly into your DOCUMENT_ROOT. (See AlternateFileLayouts if you need Minify to work in a subdirectory.)
 
 Done!
 
