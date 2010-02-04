@@ -1,0 +1,24 @@
+#summary Getting Minify to work in a subdirectory of the document root
+#labels Phase-Deploy
+
+While it's a goal to make Minify work in a subdirectory out-of-the-box, it's not obvious to users how to achieve this at the moment. 
+
+Let's say you're working on the site `http://mysite.com/` and you test in a subdirectory of another server like `http://localhost/mySite/`. 
+
+1. Place in `config.php`:
+{{{
+// Set the document root to be the path of the "site root"
+// (not the webserver's real docroot)
+$min_documentRoot = substr(__FILE__, 0, strlen(__FILE__) - 15);
+
+// Set $__siteUri to the path of the site from the webserver's real docroot
+// Likely "" on production, "/mySite" on our testing server 
+list($__siteUri) = explode('/min/index.php', $_SERVER['SCRIPT_NAME'], 2);
+
+// Prepend $siteUri to the rewritten URIs in CSS files
+$min_symlinks['//' . ltrim($__siteUri, '/')] = $min_documentRoot;
+}}}
+
+Now the `min` application should operate correctly wherever you put it in within the document root.
+
+2. In the HTML, make your Minify URIs document-relative: E.g. `min/f=js/file.js` and `../min/f=js/file.js`, etc.
