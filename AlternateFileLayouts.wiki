@@ -22,3 +22,5 @@ $min_symlinks['//' . ltrim($__siteUri, '/')] = $min_documentRoot;
 Now the `min` application should operate correctly wherever you put it in within the document root.
 
 2. In the HTML, make your Minify URIs document-relative: E.g. `min/f=js/file.js` and `../min/f=js/file.js`, etc.
+
+Note that this changes where Minify looks for files depending on the location of `min` within the document root. If your JS/CSS files stay within your "site", you don't need to change the paths to them in the `f` parameter (or in paths like `//path/to/file` in `groupsConfig.php`). `http://mysite.com/min/f=js/file1.js` will load `/home/mysite_com/www/js/file1.js` on your remote server and `http://localhost/mySite/min/f=js/file1.js` will load `/var/www/mySite/js/file1.js` on your test box.
