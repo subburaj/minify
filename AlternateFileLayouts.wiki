@@ -9,7 +9,7 @@ Let's say you're working on the site `http://mysite.com/` and you test in a subd
 {{{
 // Set the document root to be the path of the "site root"
 // (not the webserver's real docroot)
-$min_documentRoot = substr(__FILE__, 0, strlen(__FILE__) - 15);
+$min_documentRoot = substr(__FILE__, 0, -15);
 
 // Set $__siteUri to the path of the site from the webserver's real docroot
 // Likely "" on production, "/mySite" on our testing server 
