@@ -60,6 +60,18 @@ Setting the [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/mi
 
 WinSCP has a [http://winscp.net/eng/docs/ui_login_environment#daylight_saving_time Daylight Saving Time option] that can prevent this issue. 
 
+== Disable Caching ==
+
+If you'd like to temporarily disable the cache without using [Debugging debug mode], place these settings at the end of `config.php`:
+{{{
+// disable server caching
+$min_cachePath = null;
+// prevent client caching
+$min_serveOptions['maxAge'] = 0;
+$min_serveOptions['lastModifiedTime'] = $_SERVER['REQUEST_TIME'];
+}}}
+*Don't do this on a production server!* Minify will have to combine, minify, and gzencode on every request.
+
 == Character Encodings ==
 
 _Please_ use UTF-8. The string processing may work on encodings like Windows-1251 but will certainly fail on radically different ones like UTF-16.
