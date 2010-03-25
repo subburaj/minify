@@ -110,3 +110,18 @@ if (isset($_GET['g'])) {
 == File/Source-specific Options ==
 
 See CustomSource.
+
+== Processing Output After Minification ==
+
+If `$min_serveOptions['postprocessor']` is set to a callback, Minify will pass the minified content to this function with type as the second argument. This allows you to apply changes to your minified content without making your own custom minifier. E.g.:
+{{{
+function postProcess($content, $type) {
+    if ($type === Minify::TYPE_CSS) {    
+        require_once 'CssColorReplacer.php';
+        return CssColorReplacer::process($content);
+    }
+    return $content;
+}
+$min_serveOptions['postprocessor'] = 'postProcess';
+}}}
+This function is only called once immediately after minification and its output is stored in the cache.
