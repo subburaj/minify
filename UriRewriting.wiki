@@ -35,6 +35,14 @@ $min_symlinks = array(
 }}}
 This lets Minify know during the rewriting process that an internal file path starting with `/etc/static_content` should be rewritten as a public URI beginning with `/static`.
 
+If your alias target directory is outside of DOC_ROOT, you'll also need to explicitly allow Minify to serve files from it:
+{{{
+$min_serveOptions['allowDirs'] = array(
+    '//',                 // allow from the normal DOC_ROOT
+    '/etc/static_content' // allow from our alias target
+);
+}}}
+
 == It's still not working ==
 
   # Make sure you have the [http://code.google.com/p/minify/downloads/list latest version].
