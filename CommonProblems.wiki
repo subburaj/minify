@@ -18,7 +18,7 @@ Details on the [http://code.google.com/p/minify/issues/detail?id=126 issue] page
 
 == Builder Fails / 400 Errors ==
 
-With URLs like `/min/f=...`, Minify is paranoid about not serving files outside of `$_SERVER['DOCUMENT_ROOT']`. If you're trying to serve files that are actually symlinks (or in a symlinked folder) to files outside of the DOC_ROOT, Minify won't allow it by default.
+With URLs like `/min/f=...`, Minify is paranoid about not serving files outside of `$_SERVER['DOCUMENT_ROOT']`. If you're trying to serve files that are actually symlinks (or in a symlinked folder) to files outside of the DOC_ROOT, Minify won't allow it by default. You can see the cause of 400 responses using FirePHP (See [Debugging]).
 
 === Example ===
 
