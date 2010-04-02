@@ -24,6 +24,10 @@ $memcache->connect('localhost', 11211);
 $min_cachePath = new Minify_Cache_Memcache($memcache);
 }}}
 
+=== Zend Platform ===
+
+Patrick van Dissel has contributed a [http://code.google.com/p/minify/issues/detail?id=167 cache adapter for Zend Platform].
+
 == YUICompressor ==
 
 If your host can execute Java, you can use Minify's YUI Compressor wrapper. You'll need the latest [http://yuilibrary.com/downloads/#yuicompressor yuicompressor-x.x.x.jar] and a temp directory. Place the .jar in `min/lib`, then:
