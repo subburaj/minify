@@ -80,7 +80,7 @@ If you consistently use a different encoding, in `config.php` set `$min_serveOpt
 
 Otherwise, set it to `false` to remove it altogether. You can still, in CSS, use the [http://www.w3.org/TR/CSS2/syndata.html#x50 @charset] directive to tell the browser the encoding, but (a) it must appear first and (b) shouldn't appear later in the output (and Minify won't enforce this).
 
-Moral? Use UTF-8.
+Moral? To minimize problems, use UTF-8 and remove any `@charset` directives from your CSS.
 
 == @imports can appear in invalid locations in combined CSS files ==
 
