@@ -37,10 +37,10 @@ This lets Minify know during the rewriting process that an internal file path st
 
 If your alias target directory is outside of DOC_ROOT, you'll also need to explicitly allow Minify to serve files from it:
 {{{
-$min_serveOptions['allowDirs'] = array(
+$min_serveOptions['minApp']['allowDirs'] = array(
     '//',                 // allow from the normal DOC_ROOT
     '/etc/static_content' // allow from our alias target
-);
+); 
 }}}
 
 == It's still not working ==
