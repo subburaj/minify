@@ -103,6 +103,10 @@ return /'/;   // JSMin throws error
 return (/'/); // no error
 }}}
 
+== Can't specify more than 10 files via URL ==
+
+In `config.php` edit the setting `$min_serveOptions['minApp']['maxFiles']`.
+
 == See Also ==
 
  * [Debugging]
