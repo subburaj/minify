@@ -33,12 +33,11 @@ Now Minify can serve files whose `realpath()` is in `/var/shared/css`.
 
 == Dealing with Javascript errors ==
 
-Minify currently uses JSMin to remove whitespace from Javascript. Although [http://code.google.com/p/minify/source/browse/trunk/min/lib/JSMin.php Minify's JSMin] has been patched beyond Douglas Crockford's [http://www.crockford.com/javascript/jsmin.html original], errors can still be introduced, e.g. in scripts that rely on [http://www.robertnyman.com/2008/10/16/beware-of-javascript-semicolon-insertion/ semicolon insertion] or other unusual syntax. To avoid problems, in general:
+Short answer: *use Minify 2.1.4+, use a pre-compressed version of your file, and rename it `*.min.js` or `*-min.js`*. By default Minify won't try to minify these files (but will still gzip them). The [http://compressorrater.thruhere.net/ Compressor Rater] is handy for compressing files individually.
 
-  * When available, use pre-compressed versions of Javascript libraries (generally JSMin will not break code output by the more advanced Rhino-based compressors like [http://developer.yahoo.com/yui/compressor/ YUI Compressor]), or use a [http://code.google.com/apis/ajaxlibs/ Google-hosted version] and reserve Minify for serving plugins and user code.
-  * Try [Debugging debug mode] to check your files for errors. Debug mode _can_ introduce its own errors, but is generally reliable. The comment at the beginning of the line of the error will tell you the line number in the original source file.
-  * In a custom group, you can specify a file to have [http://code.google.com/p/minify/wiki/UserGuide#Custom_functions_for_files no minifier] (HTTP compression will still be used).
-  * If you have Java on your web host, you can use the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/YUICompressor.php wrapper for YUI Compressor] instead of JSMin. [http://groups.google.com/group/minify/browse_thread/thread/f12f25f27e1256fe This thread] shows how a user has done this.
+If the error is in your code, enable [Debugging debug mode] while debugging your code in Firebug or your favorite browser's Javascript debugger. This will insert comments to allow you to keep track of the individual source locations in the combined file.
+
+If you have Java on your web host, you can use the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/YUICompressor.php wrapper for YUI Compressor] instead of JSMin. [http://groups.google.com/group/minify/browse_thread/thread/f12f25f27e1256fe This thread] shows how a user has done this.
 
 === Scriptaculous ===
 
