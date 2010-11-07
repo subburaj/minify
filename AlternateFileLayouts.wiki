@@ -1,28 +1,33 @@
 #summary Getting Minify to work in a subdirectory of the document root
 #labels Phase-Deploy
 
-While it's a goal to make Minify work in a subdirectory out-of-the-box, it's not obvious to users how to achieve this at the moment. 
+If you test sites in a subdirectory (e.g. `http://localhost/testSite/`) rather than a virtualhost, then you'll need to adjust the way you use Minify to rewrite CSS correctly.
 
-Let's say you're working on the site `http://mysite.com/` and you test in a subdirectory of another server like `http://localhost/mySite/`. 
-
-1. Place in `config.php`:
+1. Place the following in `min/config.php`:
 {{{
-// Set the document root to be the path of the "site root"
-// (not the webserver's real docroot)
+// Set the document root to be the path of the "site root" (not the webserver's 
+// real docroot). E.g. /var/www/testSite
 $min_documentRoot = substr(__FILE__, 0, -15);
 
-// Set $__siteUri to the path of the site from the webserver's real docroot
-// Likely "" on production, "/mySite" on our testing server 
-list($__siteUri) = explode('/min/index.php', $_SERVER['SCRIPT_NAME'], 2);
+// Set $sitePrefix to the path of the site from the webserver's real docroot
+// E.g. "" on production, "/testSite" on our testing server 
+list($sitePrefix) = explode('/min/index.php', $_SERVER['SCRIPT_NAME'], 2);
 
-// Prepend $siteUri to the rewritten URIs in CSS files
-$min_symlinks['//' . ltrim($__siteUri, '/')] = $min_documentRoot;
+// Prepend $sitePrefix to the rewritten URIs in CSS files
+$min_symlinks['//' . ltrim($sitePrefix, '/')] = $min_documentRoot;
 }}}
 
-Now the `min` application should operate correctly wherever you put it in within the document root.
+2. In the HTML, make your Minify URIs document-relative (e.g. `min/f=js/file.js` and `../min/f=js/file.js`), not root-relative.
 
-2. In the HTML, make your Minify URIs document-relative: E.g. `min/f=js/file.js` and `../min/f=js/file.js`, etc.
+Now the `min` application should operate correctly from a subdirectory and will serve files relative to your "site" root rather than the document root. E.g.
 
-Note that this changes where Minify looks for files depending on the location of `min` within the document root. If your JS/CSS files stay within your "site", you don't need to change the paths to them in the `f` parameter (or in paths like `//path/to/file` in `groupsConfig.php`). `http://mysite.com/min/f=js/file1.js` will load `/home/mysite_com/www/js/file1.js` on your remote server and `http://localhost/mySite/min/f=js/file1.js` will load `/var/www/mySite/js/file1.js` on your test box.
+|| *environment* || production || testing ||
+|| *server document root* || `/home/mysite_com/www` || `/var/www` ||
+|| *`$min_documentRoot` ("site root")* || `/home/mysite_com/www` || `/var/www/testSite` ||
+|| *`$sitePrefix`* || (empty) || `/testSite` ||
+|| *Minify URL* || `http://mysite.com/min/f=js/file1.js` || `http://localhost/testSite/min/f=js/file1.js` ||
+|| *file served* || `/home/mysite_com/www/js/file1.js` || `/var/www/testSite/js/file1.js` ||
 
-*Caveat:* This configuration may break the Builder application (located at `/min/builder/`) used to create Minify URIs, but you can still [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/README.txt#18 create them by hand].
+Caveats:
+  * This configuration may break the Builder application (located at `/min/builder/`) used to create Minify URIs, but you can still [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/min/README.txt#18 create them by hand].
+  * Make sure you don't reset `$min_symlinks` to a different value lower in your config file.
