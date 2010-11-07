@@ -5,12 +5,10 @@ If you test sites in a subdirectory (e.g. `http://localhost/testSite/`) rather t
 
 1. Place the following in `min/config.php`:
 {{{
-// Set the document root to be the path of the "site root" (not the webserver's 
-// real docroot). E.g. /var/www/testSite
+// Set the document root to be the path of the "site root"
 $min_documentRoot = substr(__FILE__, 0, -15);
 
 // Set $sitePrefix to the path of the site from the webserver's real docroot
-// E.g. "" on production, "/testSite" on our testing server 
 list($sitePrefix) = explode('/min/index.php', $_SERVER['SCRIPT_NAME'], 2);
 
 // Prepend $sitePrefix to the rewritten URIs in CSS files
