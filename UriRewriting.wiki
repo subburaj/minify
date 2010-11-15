@@ -1,6 +1,8 @@
 #summary Helping Minify to correctly rewrite URIs in CSS
 #labels Phase-Deploy
 
+== Default operation ==
+
 Minify uses an algorithm to rewrite relative URIs in CSS output to root-relative URIs so that each link points to the same location it did in its original file.
 
 Say your style sheet `http://example.org/theme/fashion/style.css` contains:
@@ -14,6 +16,23 @@ body{background:url(/theme/fashion/bg.jpg)}
 }}}
 
 You can see the steps used to rewrite your URIs by enabling [Debugging debug mode].
+
+== Disable Rewriting == 
+
+You can disable the automatic rewriting by setting this in min/config.php:
+{{{
+$min_serveOptions['rewriteCssUris'] = false;
+}}}
+
+== Manual Rewriting ==
+
+You can manually rewrite relative URIs in CSS in a couple ways. The simplest is to prepend a string to each relative URI:
+{{{
+$min_serveOptions['rewriteCssUris'] = false;
+$min_serveOptions['minifierOptions']['text/css']['prependRelativePath'] = '/css/';
+}}}
+
+Or you can run the minified output through a custom [CookBook#Processing_Output_After_Minification post-processor] function.
 
 == Document Root Confusion ==
 
