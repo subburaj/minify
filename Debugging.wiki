@@ -69,6 +69,14 @@ docroot stripped   : \css\..\images\bg.jpg
 traversals removed : /images/bg.jpg
 }}}
 
+=== Other tips for handling Javascript errors ===
+
+  * Use the latest version (2.1.4 beta as of Dec 2010)
+  * Try debug mode (above) to make the combined file more readable (and error locations findable)
+  * Find out if other browsers have the same error
+  * For pre-minified files, make the filenames end in `.min.js` or `-min.js`, which will prevent Minify from altering them
+  * Test your scripts in [http://www.jslint.com/ JSLint].
+
 == See Also ==
 
  * CommonProblems
