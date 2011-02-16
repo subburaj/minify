@@ -28,6 +28,12 @@ If the error is in your code, enable [Debugging debug mode] while debugging your
 
 If you have Java on your web host, you can use the [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/YUICompressor.php wrapper for YUI Compressor] instead of JSMin. [http://groups.google.com/group/minify/browse_thread/thread/f12f25f27e1256fe This thread] shows how a user has done this.
 
+== Javascript isn't being minified ==
+
+There are cases where Minify would leave your file unmodified:
+  * the filename ends with *`-min.js`* or *`.min.js`*
+  * the script contains syntax like `+ ++a`. Minify's JSMin port can't handle this syntax and assumes it's a script already minified by Closure Compiler.
+
 === Scriptaculous ===
 
 Scriptaculous 1.8.2 (and probably all 1.x) has an [http://github.com/madrobby/scriptaculous/blob/4b49fd8884920d4ee760b0194431f4f433f878df/src/scriptaculous.js#L54 autoloader script] that requires files to be in a particular place on disk. To serve Scriptaculous modules with Minify, just serve `prototype.js` and the individual support files (e.g. `dragdrop.js`, `effects.js`) and the library should work fine. E.g.:
