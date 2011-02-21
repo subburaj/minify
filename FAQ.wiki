@@ -32,6 +32,14 @@ Of course, and you can also use [CookBook APC for content caching].
 
 Minify is not suited for _serving_ HTML pages on a site, though it can be done for small numbers of static pages.
 
+== Why do the CSS & HTML minifiers add so many line breaks? ==
+
+It's [https://github.com/yui/yuicompressor/blob/master/doc/README#L43 rumored] that some source control tools don't like very long lines. Compressed files with shorter lines are also easier to diff.
+
+Since both Minify classes are regex-based, it would be very difficult/error-prone to count characters then try to re-establish context to add line breaks. Instead, both classes trade 1 space for 1 line break (`\n`) wherever possible, adding breaks but without adding bytes.
+
+If you can think of another safe & efficient way to limit lines in these two tools without adding bytes, submit a patch or some pseudocode to the [http://groups.google.com/group/minify support group].
+
 == How does it ensure that the client can't request files it shouldn't have access to? ==
 
 In 2.1, by default, Minify allows files to be specified using the URI, or using pre-configured sets of files. With URI-specified files, Minify is [Security very careful] to serve only JS/CSS files that are already public on your server, but if you hide public directories--with .htaccess, e.g.--Minify can't know that. Obvious Tip: don't put sensitive info in JS/CSS files inside DOC_ROOT :)
