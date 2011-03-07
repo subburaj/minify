@@ -54,6 +54,14 @@ Setting the [http://code.google.com/p/minify/source/browse/tags/release_2.1.3/mi
 
 WinSCP has a [http://winscp.net/eng/docs/ui_login_environment#daylight_saving_time Daylight Saving Time option] that can prevent this issue. 
 
+== Can't see changes in browser ==
+
+Generally changes aren't seen because a) the browser is refusing to send a new request, or b) the server doesn't recognize that your source files have been modified after the server cache was created.
+
+First, place the Minify URL directly in the address bar and refresh.
+
+If a change is not seen, verify that the server cache file is being updated. If it's not, it could be the problem in the section above, or it could be that the `mtime` of your modified source file is not being updated (some tools do not always update it). Trying `touch`-ing the file.
+
 == Disable Caching ==
 
 If you'd like to temporarily disable the cache without using [Debugging debug mode], place these settings at the end of `config.php`:
