@@ -10,8 +10,8 @@ User-configurable files:
   * `/min/config.php`: general configuration
   * `/min/groupsConfig.php`: configuration of pre-defined groups of files
 
-Other Files:
+Other files of interest:
 
   * `/min/.htaccess`: rewrites URLs for the front controller
   * `/min/index.php`: front controller
-  * `/min/lib/Minify/Controller/MinApp.php`: determines which files are combined based on `$_GET`
+  * `/min/lib/Minify/Controller/MinApp.php`: determines which files are combined based on `$_GET`, sets some default options
