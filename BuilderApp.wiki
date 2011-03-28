@@ -1,0 +1,10 @@
+#summary The URI Builder that comes with Minify
+#labels Phase-Support
+
+Minify ships with "Builder", a simple Javascript app for constructing URIs to use with Minify. ([http://www.mrclay.org/index.php/2008/09/19/minify-21-on-mrclayorg/ screenshots of the 2.1.0 version])
+
+After installation, this is found at `http://example.com/min/builder/`.
+
+It also does some run-time checks of your PHP and Minify configuration to look for problematic settings like [http://code.google.com/p/minify/wiki/CommonProblems#Output_is_distorted/random_chars auto-encoding].
+
+It can be disabled in `min/config.php` if you like.
