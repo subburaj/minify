@@ -26,6 +26,10 @@ Yes. Based on the browser's Accept-Encoding header, Minify will serve content en
 
 Of course, and you can also use [CookBook APC for content caching].
 
+== Can it minify remote files? ==
+
+[http://code.google.com/p/minify/wiki/CustomSource#Non-File_Sources Yes], but it's not a straightforward setup, and probably best avoided.
+
 == Is there a minifier for HTML? ==
 
 [http://code.google.com/p/minify/source/browse/trunk/min/lib/Minify/HTML.php Yes], and it can even minify embedded STYLE and SCRIPT elements. Since Minify_HTML is not fast, the best time to use it is when storing HTML; e.g., in a DB keep one copy for editing and one minified for serving.
